@@ -1,0 +1,19 @@
+.banner {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+@mixin mixin-limit-max-width {
+	$width: 1660px;
+	min-width: $width;
+	padding: 0 calc((100% - $width) / 2);
+}
+.limit-max-width,
+div[limit-max-width]{
+	@include mixin-limit-max-width;
+}
+
+// .sticky {
+// 	position: sticky;
+// 	top: var(--data-top,100px);
+// }
