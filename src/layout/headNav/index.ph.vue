@@ -38,7 +38,7 @@ export default {
 	computed: {
 		...mapGetters({
 			theme: 'theme',
-			
+			web3Provider: 'web3Provider',
 		}),
 		// theme() {
 		// 	return this.$store.state.theme;
@@ -55,12 +55,15 @@ export default {
 	},
 	methods: {
 		changeOpenNav() {
+			if(!this.web3Provider) return;
 			this.openNav = !this.openNav;
 		},
 		toRoute({
 			path
 		}) {
+			if(!this.web3Provider) return;
 			this.$routerUtil.toPath(path);
+			this.openNav = false;
 		},
 	}
 };
@@ -68,9 +71,9 @@ export default {
 <style lang="scss" scoped="scoped">
 @import '@/styles/theme.scss';
 .head-nav {
-	height: 64px;
 	padding: 20px 20px 0;
 	z-index: 999;
+	height: 64px;
 	display: grid;
 	grid-template-columns: 40px 1fr 80px;
 	position: relative;

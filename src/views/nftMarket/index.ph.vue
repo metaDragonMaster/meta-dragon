@@ -8,10 +8,20 @@
 			<img class="egg" src="@/assets/nft-market/egg.png" alt="">
 		</div>
 		<el-alert class="alert" v-show="currentStatic>=0"  show-icon :closable="false" :title="static.title" :type="static.type" effect="dark" />
-		<button class="send-button" @click="ethSend" :disabled="loading">
+		<button v-if="haveAuth == false" class="send-button" @click="getAuth"  :disabled="loading">
 			<i class="el-icon-loading" v-show="loading"></i>
-			100USDT
+			获取授权
 		</button>
+		<div v-else >
+			<button  class="send-button" @click="ethSend(1)" :disabled="loading">
+				<i class="el-icon-loading" v-show="loading"></i>
+				单抽  {{usdtValue}}USDT
+			</button>
+			<button  class="send-button" @click="ethSend(10)" :disabled="loading">
+				<i class="el-icon-loading" v-show="loading"></i>
+				十连抽  {{usdtValue*10}}USDT
+			</button>
+		</div>
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>
@@ -68,6 +78,7 @@
 		font-size: 0.625rem;
 		padding: 0 20px ;
 		color: #FFFFFF;
+		display: block;
 		&[disabled] {
 			opacity: 0.4;
 		}

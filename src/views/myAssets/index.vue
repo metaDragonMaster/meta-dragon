@@ -14,10 +14,11 @@
 			</li>
 		</ul>
 		<div class="assets-list-module">
+			<p class="all-assets">All Assets：{{dragonList.length}}</p>
 			<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="">
 			<ul class="dragon-table-data-list">
 				<li v-for="item in dragonList"  @click="toDetails">
-					<dragonCard :cardType="item.cardType" :stars="item.stars" :skills="defaultSkills"></dragonCard>
+					<dragonCard :dragonId="item.properties.id" :cardType="item.cardType" :stars="item.stars" :skills="defaultSkills"></dragonCard>
 				</li>
 			</ul>
 		</div>
@@ -80,6 +81,12 @@
 		grid-template-columns: repeat(auto-fill,150px);
 		grid-column-gap: 40px;
 		grid-row-gap: 12px;
+	}
+	.all-assets {
+		color: #FFFFFF;
+		font-size: 24px;
+		margin-top: -40px;
+		margin-bottom: 40px;
 	}
 }
 </style>

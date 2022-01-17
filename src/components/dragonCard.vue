@@ -2,7 +2,7 @@
 	<div class="dragon-card" :class="[
 		types[cardType]
 	]">
-		<p class="RGB-text left">#16536</p>
+		<p class="RGB-text left">#{{dragonId}}</p>
 		<p class="left">MBC:3</p>
 		<img class="dragon-image" src="@/assets/myAssets/dragon.png" alt="" />
 		<Rate :stars="stars"></Rate>
@@ -31,6 +31,10 @@ export default {
 		// dragonImage: {
 		// 	default: 
 		// },
+		dragonId:{
+			type:[String,Number],
+			default:''
+		},
 		cardType: {
 			type: String,
 			default: 'blue',
