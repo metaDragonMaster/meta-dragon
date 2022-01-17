@@ -1,0 +1,79 @@
+// font 文字类型的样式
+
+@mixin mixin-font-hide {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+.font-hide,
+[font-hide] {
+	// @include mixin-font-hide;
+	// -webkit-line-clamp: var(--line-clamp,1);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.font-hide-2,
+[font-hide-2] {
+	@include mixin-font-hide;
+	-webkit-line-clamp: 2;
+}
+
+// 文字对齐
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
+.text-justify {
+	//文字分布对齐
+	text-align: justify;
+}
+// 文字下划线
+.text-underline {
+	text-decoration: underline;
+}
+// 文字中划线
+.text-line-through {
+	text-decoration: line-through;
+}
+//文字上划线
+.text-underline {
+	text-decoration: overline;
+}
+
+// 英文
+// 字母全大写
+.text-uppercase {
+	text-transform: uppercase;
+}
+// 字母全小写
+.text-lowercase {
+	text-transform: lowercase;
+}
+// 字母全大写
+.text-capitalize {
+	text-transform: capitalize;
+}
+
+// 文字缩进
+.text-indent-1 {
+	text-indent: 1rem;
+}
+.text-indent-2 {
+	text-indent: 2rem;
+}
+
+// 字体样式
+// 斜体文字
+.text-italic {
+	font-style: italic;
+}
+// 粗体文字
+.text-bold {
+	font-weight: bold;
+}

@@ -1,40 +1,24 @@
 <template>
 	<div class="nft-market-view banner">
-		<img class="title" src="@/assets/text-shadow/go-live.png" alt="">
-		<div class="timer-model">
-			<p class="timer">255:999:999</p>
-		</div>
-		<div class="egg-frame">
-			<img class="egg" src="@/assets/nft-market/egg.png" alt="">
-		</div>
-		<button class="send-button">
+		<img class="title" src="@/assets/text-shadow/go-live.png" alt="" />
+		<div class="timer-model"><p class="timer">255:999:999</p></div>
+		<div class="egg-frame"><img class="egg" src="@/assets/nft-market/egg.png" alt="" /></div>
+		<!-- v-show="loading" -->
+		<el-alert class="alert" v-show="currentStatic>=0"  show-icon :closable="false" :title="static.title" :type="static.type" effect="dark" />
+		<button class="send-button" @click="ethSend" :disabled="loading">
+			<i class="el-icon-loading" v-show="loading"></i>
 			100USDT
 		</button>
 	</div>
 </template>
-<script>
-export default {
-	data(){return{
-		
-	}},
-	components: {
-		
-	},
-	mounted() {
-		
-	},
-	methods:{
-		
-	}
-}
-</script>
-<style  lang="scss" scoped="scoped">
-@import "@/styles/theme";
+<script src="./index.js" type="text/javascript" charset="utf-8"></script>
+<style lang="scss" scoped="scoped">
+@import '@/styles/theme';
 .nft-market-view {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background-image: url("~@/assets/nft-market/bg.png");
+	background-image: url('~@/assets/nft-market/bg.png');
 	min-height: 100vh;
 	.title {
 		margin-bottom: 75px;
@@ -48,9 +32,9 @@ export default {
 		font-size: 40px;
 		text-align: center;
 		line-height: 72px;
-		color: #FFFFFF;
+		color: #ffffff;
 	}
-	.egg-frame{
+	.egg-frame {
 		height: 390px;
 		width: 340px;
 		background-image: url('~@/assets/nft-market/egg-frame.png');
@@ -59,14 +43,21 @@ export default {
 		justify-content: center;
 		align-items: center;
 	}
+	.alert {
+		width: 214px;
+	}
 	.send-button {
 		@include GradualBGColor;
 		@include GradualBoxShadow;
 		height: 65px;
-		width: 214px;
-		margin-top: 70px;
+		min-width: 214px;
+		margin-top: 20px;
+		padding: 0 20px;
 		border-radius: 12px;
-		color: #FFFFFF;
+		color: #ffffff;
+		&[disabled] {
+			opacity: 0.4;
+		}
 	}
 }
 </style>

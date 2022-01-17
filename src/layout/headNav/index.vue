@@ -1,56 +1,73 @@
 <template>
 	<div class="head-nav" :class="[theme]">
-		<img class="head-nav-icon" src="@/assets/head-nav/head-nav-icon.png" alt="">
+		<img class="head-nav-icon" src="@/assets/head-nav/head-nav-icon.png" alt="" />
 		<nav>
 			<ul>
-				<li v-for="item in navList" :key="item.path" :class="{'active':currentRoutePath == item.path}" @click="toRoute(item)">
-					<span>{{item.title}}</span>
+				<li v-for="item in navList" :key="item.path" :class="{ active: currentRoutePath == item.path }" @click="toRoute(item)">
+					<span>{{ item.title }}</span>
 				</li>
 			</ul>
-			<button class="link-wallet-button">Link Wallet</button>
+			<div class="link-wallet-button font-hide" @click="$emit('btnClick')">{{ ethAddress }}</div>
 		</nav>
 	</div>
 </template>
+
 <script>
+import Hbg from '@/assets/head-nav/hbg.png';
+import HbgWhite from '@/assets/head-nav/hbg-white.png';
+import { mapGetters } from "vuex";
 export default {
-	data(){return{
-		navList:[
-			{
-				title: 'HOME',
-				path: '/homepage'
-			},
-			{
-				title: 'NFT MARKET',
-				path: '/nftMarket'
-			},
-			{
-				title: 'MY ASSETS',
-				path: '/myAssets'
-			},
-		]
-	}},
-	computed:{
-		theme() {
-			return this.$store.state.theme;
-		},
+	data() {
+		return {
+			openNav: false,
+			ethereum: null,
+			web3js: null,
+			navList: [
+				{
+					title: 'HOME',
+					path: '/homepage'
+				},
+				{
+					title: 'NFT MARKET',
+					path: '/nftMarket'
+				},
+				{
+					title: 'MY ASSETS',
+					path: '/myAssets'
+				}
+			]
+		};
+	},
+	computed: {
+		...mapGetters({
+			theme: 'theme',
+		}),
+		// theme() {
+		// 	return this.$store.state.theme;
+		// },
 		currentRoutePath() {
 			return this.$store.state.currentRoutePath;
+		},
+		ethAddress() {
+			return this.$store.getters.ethAddress || 'Link Wallet';
+		},
+		hbgIcon() {
+			return this.$route.path == '/homepage' ? Hbg : HbgWhite;
 		}
 	},
-	components: {
-		
-	},
-	mounted() {
-	},
-	methods:{
-		toRoute({path}) {
-			this.$routerUtil.toPath(path)
-		}
+	methods: {
+		changeOpenNav() {
+			this.openNav = !this.openNav;
+		},
+		toRoute({ path }) {
+			this.$routerUtil.toPath(path);
+		},
 	}
-}
+};
 </script>
-<style  lang="scss" scoped="scoped">
-@import "@/styles/theme.scss";
+
+<style lang="scss" scoped="scoped">
+@import '@/styles/theme.scss';
 .head-nav {
 	display: flex;
 	height: 100px;
@@ -61,12 +78,12 @@ export default {
 	}
 	&.dark {
 		background-color: rgba($color: #000000, $alpha: 0.2);
-		color: #FFFFFF;
+		color: #ffffff;
 	}
 	.head-nav-icon {
 		padding: 18px 0 0 0;
 	}
-	nav{
+	nav {
 		display: flex;
 		align-items: center;
 		margin-left: auto;
@@ -79,7 +96,7 @@ export default {
 				padding: 0 30px;
 			}
 			li.active:after {
-				content:'';
+				content: '';
 				display: block;
 				position: absolute;
 				bottom: 0;
@@ -94,11 +111,14 @@ export default {
 	}
 	.link-wallet-button {
 		height: 65px;
+		line-height: 65px;
 		width: 214px;
 		border-radius: 12px;
-		color: #FFFFFF;
+		padding: 0 10px 0;
+		color: #ffffff;
 		margin-right: 20px;
 		margin-left: 70px;
+		text-align: center;
 		@include GradualBGColor;
 	}
 }

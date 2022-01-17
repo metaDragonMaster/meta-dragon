@@ -7,27 +7,14 @@
 		<div class="egg-frame">
 			<img class="egg" src="@/assets/nft-market/egg.png" alt="">
 		</div>
-		<button class="send-button">
+		<el-alert class="alert" v-show="currentStatic>=0"  show-icon :closable="false" :title="static.title" :type="static.type" effect="dark" />
+		<button class="send-button" @click="ethSend" :disabled="loading">
+			<i class="el-icon-loading" v-show="loading"></i>
 			100USDT
 		</button>
 	</div>
 </template>
-<script>
-export default {
-	data(){return{
-		
-	}},
-	components: {
-		
-	},
-	mounted() {
-		
-	},
-	methods:{
-		
-	}
-}
-</script>
+<script src="./index.js" type="text/javascript" charset="utf-8"></script>
 <style  lang="scss" scoped="scoped">
 @import "@/styles/theme";
 .nft-market-view {
@@ -67,15 +54,23 @@ export default {
 			width: 95px;
 		}
 	}
+	.alert {
+		width: 233px;
+		margin-top: 20px;
+	}
 	.send-button {
 		@include GradualBGColor;
 		@include GradualBoxShadow;
 		height: 32px;
-		width: 233px;
-		margin-top: 70px;
+		min-width: 233px;
+		margin-top: 20px;
 		border-radius: 12px;
 		font-size: 0.625rem;
+		padding: 0 20px ;
 		color: #FFFFFF;
+		&[disabled] {
+			opacity: 0.4;
+		}
 	}
 }
 </style>
