@@ -11,6 +11,7 @@
 	</div>
 </template>
 <script>
+import tp from "tp-js-sdk"
 export default {
 	data(){return{
 		openNav:false,
@@ -40,7 +41,17 @@ export default {
 	components: {
 		
 	},
-	mounted() {
+	async mounted() {
+		// console.log(tp.isConnected())
+		let haveTp = tp.isConnected()
+		let appInfo = await tp.getAppInfo()
+		let CurrentWallet = await tp.getCurrentWallet()
+		
+		// console.log(haveTp)
+		this.$message(`${haveTp}`)
+		this.$message(`${appInfo}`)
+		this.$message(`${CurrentWallet}`)
+		
 	},
 	methods:{
 		changeOpenNav() {
