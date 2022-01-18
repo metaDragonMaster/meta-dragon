@@ -152,10 +152,4 @@ export default {
 		dragonCard,
 		percent,
 	},
-	mounted() {
-		
-	},
-	methods:{
-		
-	}
 }

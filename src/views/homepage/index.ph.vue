@@ -3,7 +3,9 @@
 		<h5 class="introduce-title max-w">
 			Mate Dragon It is a leisure cultivation game based on blockchain technology, where you can break through customs, challenge the arena and make money with your skills
 		</h5>
-		<div class="banner player"><p>12,064,711</p></div>
+		<div class="banner player">
+			<!-- <p>12,064,711</p> -->
+		</div>
 		<ul class="download-buttons">
 			<li class="button button-download banner">
 				<img src="@/assets/homepage/icon-android.png" alt="" />
@@ -16,16 +18,16 @@
 		</ul>
 		<div class="banner button button-inter">IMMEDIATELY</div>
 		<h5 class="introduce-title is-add">$ THG CONTRACT ADDRESS</h5>
-		<div class="opacity-p" v-for="(item,index) in 3">
+		<div class="opacity-p"  v-for="(item,index) in links" @click="mycopy(item.link)">
 			<p>
-				<span>BEP20</span>
+				<span>{{item.contract}}</span>
 				<img src="@/assets/homepage/icon-copy.png" />
 			</p>
-			<p>0x9fd87aefe02441b123c3c32466cd9db4c58618f</p>
+			<p>{{item.link}}</p>
 		</div>
 	</div>
 </template>
-<script></script>
+<script src="./index.js" type="text/javascript" charset="utf-8"></script>
 <style lang="scss" scoped="scoped">
 .homepage-view {
 	min-height: 100vh;

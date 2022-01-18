@@ -5,7 +5,9 @@
 			Mate Dragon It is a leisure cultivation game based on blockchain technology, where you can break through customs, challenge the arena and make money with your skills
 		</h5>
 		<div class="meta-card">
-			<div class="banner player"><p>12,064,711</p></div>
+			<div class="banner player">
+				<!-- <p>12,064,711</p> -->
+			</div>
 			<ul class="download-buttons">
 				<li class="button button-download banner">
 					<img src="@/assets/homepage/icon-android.png" alt="" />
@@ -25,19 +27,9 @@
 				</li>
 			</ul>
 			<h5 class="introduce-title is-add">$ THG CONTRACT ADDRESS</h5>
-			<p class="opacity-p">
-				<span>BEP20</span>
-				<span>0x9fd87aefe02441b123c3c32466cd9db4c58618f</span>
-				<img src="@/assets/homepage/icon-copy.png" />
-			</p>
-			<p class="opacity-p">
-				<span>BEP20</span>
-				<span>0x9fd87aefe02441b123c3c32466cd9db4c58618f</span>
-				<img src="@/assets/homepage/icon-copy.png" />
-			</p>
-			<p class="opacity-p">
-				<span>BEP20</span>
-				<span>0x9fd87aefe02441b123c3c32466cd9db4c58618f</span>
+			<p class="opacity-p" v-for="(item,index) in links" @click="mycopy(item.link)">
+				<span>{{item.contract}}</span>
+				<span>{{item.link}}</span>
 				<img src="@/assets/homepage/icon-copy.png" />
 			</p>
 			<div class="banner button button-inter">IMMEDIATELY</div>
@@ -52,6 +44,8 @@
 	padding: 60px calc((100% - 1660px) / 2);
 	color: #ffffff;
 	background-image: url('~@/assets/homepage/meta-bg.png');
+	background-position: top center;
+	// background-size: 100% 100%;
 	.title-bg {
 		padding-top: 56px;
 	}

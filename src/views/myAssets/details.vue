@@ -1,7 +1,7 @@
 <template>
 	<el-row class="my-assets-details-view limit-max-width relative">
 		<el-col :span="11" class="sticky">
-			<div class="come-back">
+			<div class="come-back" @click="$routerUtil.toPath('/myAssets')">
 				<img class="arrow-left" src="@/assets/myAssets-details/come-back-arrow-left.png" alt="">
 				<img src="@/assets/text-shadow/back-off.png" alt="">
 			</div>

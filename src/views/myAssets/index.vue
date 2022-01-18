@@ -1,33 +1,40 @@
 <template>
 	<div class="my-assets-view banner limit-max-width">
-		<img class="view-title" src="@/assets/text-shadow/my-assets.png" alt="">
+		<img class="view-title" src="@/assets/text-shadow/my-assets.png" alt="" />
 		<!-- <rate :stars="4"></rate> -->
 		<ul class="dragon-grid-max-col-4">
-			<li v-for="(item,index) in dragonGridList" :key="item.type"
+			<li
+				v-for="(item, index) in dragonGridList"
+				v-loading="loading"
+				:element-loading-background="elementLoadingBackground"
+				:key="item.type"
 				:style="{
-					'background-image':`url(${item.bgImage})`
+					'background-image': `url(${item.bgImage})`
 				}"
 			>
-				<img :src="item.iconImage" alt="">
-				<p>{{item.num}}</p>
-				<span>{{item.type}}</span>
+				<img :src="item.iconImage" alt="" />
+				<p>{{ item.num }}</p>
+				<span>{{ item.type }}</span>
 			</li>
 		</ul>
-		<div class="assets-list-module">
-			<p class="all-assets">All Assets：{{dragonList.length}}</p>
-			<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="">
+		<div class="assets-list-module"
+			v-loading="loading"
+			:element-loading-background="elementLoadingBackground"
+		>
+			<p class="all-assets">All Assets：{{ dragonList.length }}</p>
+			<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="" />
 			<ul class="dragon-table-data-list">
-				<li v-for="item in dragonList"  @click="toDetails">
-					<dragonCard :dragonId="item.properties.id" :cardType="item.cardType" :stars="item.stars" :skills="defaultSkills"></dragonCard>
+				<li v-for="item in dragonList" @click="toDetails">
+					<dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="defaultSkills"></dragonCard>
 				</li>
 			</ul>
 		</div>
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>
-<style  lang="scss" scoped="scoped">
+<style lang="scss" scoped="scoped">
 .my-assets-view {
-	background-image: url("~@/assets/myAssets/bg.png");
+	background-image: url('~@/assets/myAssets/bg.png');
 	background-size: 100% 100%;
 	min-height: 100vh;
 	padding-bottom: 100px;
@@ -48,7 +55,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			color: #FFFFFF;
+			color: #ffffff;
 			img {
 				padding-top: 20px;
 			}
@@ -73,17 +80,17 @@
 			position: absolute;
 			left: 0;
 			top: 0;
-			transform: translate(-150px,-100px);
+			transform: translate(-150px, -100px);
 		}
 	}
 	.dragon-table-data-list {
 		display: grid;
-		grid-template-columns: repeat(auto-fill,150px);
+		grid-template-columns: repeat(auto-fill, 150px);
 		grid-column-gap: 40px;
 		grid-row-gap: 12px;
 	}
 	.all-assets {
-		color: #FFFFFF;
+		color: #ffffff;
 		font-size: 24px;
 		margin-top: -40px;
 		margin-bottom: 40px;

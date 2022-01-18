@@ -20,7 +20,6 @@
 				十连抽  {{usdtValue*10}}USDT
 			</button>
 		</div>
-		
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>

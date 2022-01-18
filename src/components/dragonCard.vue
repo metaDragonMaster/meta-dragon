@@ -1,9 +1,11 @@
 <template>
 	<div class="dragon-card" :class="[
-		types[cardType]
-	]">
+		types[cardType],cardType
+	]"
+		
+	>
 		<p class="RGB-text left">#{{dragonId}}</p>
-		<p class="left">MBC:3</p>
+		<p class="left">{{dragonName}}</p>
 		<img class="dragon-image" src="@/assets/myAssets/dragon.png" alt="" />
 		<Rate :stars="stars"></Rate>
 		<ul class="skill-list">
@@ -17,10 +19,10 @@ export default {
 	data() {
 		return {
 			types: {
-				blue: 'cli-1',
-				purple: 'cli-2',
-				yellow: 'cli-3',
-				red: 'cli-4'
+				1: 'cli-1',
+				2: 'cli-2',
+				3: 'cli-3',
+				4: 'cli-4'
 			}
 		};
 	},
@@ -35,19 +37,29 @@ export default {
 			type:[String,Number],
 			default:''
 		},
+		dragonName:{
+			type:String,
+			default:''
+		},
 		cardType: {
-			type: String,
-			default: 'blue',
-			validator(cardTypeValue) {
-				const types = {
-					blue: 'cli-1',
-					purple: 'cli-2',
-					yellow: 'cli-3',
-					red: 'cli-4'
-				};
-				let keys = Object.keys(types);
-				return keys.includes(cardTypeValue);
-			}
+			type: [Number,String],
+			// default: 1,
+			// validator(cardTypeValue) {
+			// 	// const types = {
+			// 	// 	blue: 'cli-1',
+			// 	// 	purple: 'cli-2',
+			// 	// 	yellow: 'cli-3',
+			// 	// 	red: 'cli-4'
+			// 	// };
+			// 	const types = {
+			// 		1: 'cli-1',
+			// 		2: 'cli-2',
+			// 		3: 'cli-3',
+			// 		4: 'cli-4'
+			// 	};
+			// 	let keys = Object.keys(types);
+			// 	return keys.includes(cardTypeValue);
+			// }
 		},
 		skills: {
 			type: Array,
@@ -62,7 +74,9 @@ export default {
 			default: 0
 		}
 	},
-	mounted() {},
+	// mounted() {
+	// 	console.log(this.cardType)
+	// },
 	methods: {}
 };
 </script>
@@ -80,6 +94,7 @@ export default {
 		margin-right: auto;
 		font-size: 12px;
 		margin-left: 8px;
+		color: #FFFFFF;
 	}
 	img {
 		width: 75px;

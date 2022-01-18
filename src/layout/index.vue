@@ -4,7 +4,9 @@
 		<component :is="headComponent" @btnClick="todo"></component>
 		<!-- {{ isPc }} -->
 		<div class="app-main" :class="{'ph':isPc!==true}">
-			<router-view></router-view>
+			<keep-alive :include="keepRoute">
+				<router-view></router-view>
+			</keep-alive>
 		</div>
 	</div>
 </template>
@@ -19,6 +21,7 @@ export default {
 	data() {
 		return {
 			// web3js:null,
+			keepRoute:['homepage','myAssets']
 		}
 	},
 	components: {

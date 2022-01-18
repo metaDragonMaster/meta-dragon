@@ -2,7 +2,10 @@
 	<div class="my-assets-view">
 		<img class="view-title" src="@/assets/text-shadow/my-assets.png" alt="">
 		<ul class="dragon-grid-max-col-4">
-			<li v-for="(item,index) in dragonGridList" :key="item.type"
+			<li v-for="(item,index) in dragonGridList" 
+			v-loading="loading"
+			:element-loading-background="elementLoadingBackground"
+				:key="item.type"
 				:style="{
 					'background-image':`url(${item.bgImage})`
 				}"
@@ -12,10 +15,10 @@
 				<span>{{item.type}}</span>
 			</li>
 		</ul>
-		<div class="assets-list-module">
-			<p class="all-assets">
-				<span>All Assets：{{dragonList.length}}</span>
-			</p>
+		<div class="assets-list-module" 
+		v-loading="loading"
+		:element-loading-background="elementLoadingBackground">
+			<p class="all-assets">All Assets：{{dragonList.length}}</p>
 			<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="">
 			<ul class="dragon-table-data-list">
 				<li v-for="item in dragonList"  @click="toDetails">
@@ -89,12 +92,9 @@
 	.all-assets {
 		color: #FFFFFF;
 		font-size: 16px;
-		display: flex;
 		margin-top: -20px;
 		margin-bottom: 20px;
-		span {
-			margin-left: auto;
-		}
+		text-align: right;
 	}
 }
 </style>

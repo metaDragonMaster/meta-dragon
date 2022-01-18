@@ -9,7 +9,8 @@ export default new Vuex.Store({
 		currentRoutePath:'',
 		isPc: true,
 		ethAddress:'',
-		web3Provider:null
+		web3Provider:null,
+		haveAuth:false,
 	},
 	mutations: {
 		SET_THEME:(state,theme)=>{
@@ -26,6 +27,9 @@ export default new Vuex.Store({
 		},
 		SET_WEB3_PROVIDER:(state,web3Provider)=>{
 			state.web3Provider = web3Provider
+		},
+		SET_HAVE_AUTH:(state,haveAuth)=>{
+			state.haveAuth = haveAuth
 		},
 	},
 	actions: {
@@ -44,6 +48,9 @@ export default new Vuex.Store({
 		setWeb3Provider({commit},params) {
 			commit('SET_WEB3_PROVIDER', params);
 		},
+		setHaveAuth({commit},params) {
+			commit('SET_HAVE_AUTH', params);
+		},
 	},
 	getters:{
 		theme:state=>state.theme,
@@ -51,6 +58,6 @@ export default new Vuex.Store({
 		isPc:state=>state.isPc,
 		ethAddress:state=>state.ethAddress,
 		web3Provider:state=>state.web3Provider,
+		haveAuth:state=>state.haveAuth,
 	},
-	modules: {}
 })
