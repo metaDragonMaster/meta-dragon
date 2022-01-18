@@ -25,6 +25,19 @@
 			</p>
 			<p>{{item.link}}</p>
 		</div>
+		<el-dialog class="dialog-dom" title="获取认证" :visible.sync="dialogHandleValue" center width="90%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+			<div v-show="haveAuth != true && getAuthErr != true">
+				<i class="el-icon-loading"></i>
+				正在获取认证
+			</div>
+			<div  v-show="haveAuth != true && getAuthErr == true">
+				认证失败，请重试
+				<br />
+				<el-button @click="getAuth">
+					获取认证
+				</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>

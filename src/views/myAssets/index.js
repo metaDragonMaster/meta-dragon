@@ -4,11 +4,11 @@ import Abi721Nft from "@/jsons/abi-721-NFT.js";
 import AbiLCErc20 from "@/jsons/abi-LC-ERC20.js";
 import AbiUSDT from "@/jsons/USDT_token_abi.js";
 import AbiLb from "@/jsons/LB_abi.js";
-// import {
-// 	lbAddress,
-// 	lcAddress,
-// 	NftAddress,
-// } from "@/jsons/contractAddress.js"
+import {
+	lbAddress,
+	lcAddress,
+	NftAddress,
+} from "@/jsons/contractAddress.js"
 import {
 	mapGetters
 } from "vuex";
@@ -94,13 +94,13 @@ export default {
 			web3.eth.getAccounts().then(async res => {
 				let address = res[0];
 				console.log(address);
-				let lbAddress = "0xb31429e1016D7Dc48280d9770859A26f1eA18168";
+				// let lbAddress = "0xb31429e1016D7Dc48280d9770859A26f1eA18168";
 				let lbContract = new web3.eth.Contract(AbiLb, lbAddress);
 				let lbBalance = await lbContract.methods.balanceOf(address).call();
-				let lcAddress = "0x8D041FE9fe616D5d1B62f67D79AE0FA3cB792c14";
+				// let lcAddress = "0x8D041FE9fe616D5d1B62f67D79AE0FA3cB792c14";
 				let lcContract = new web3.eth.Contract(AbiLCErc20, lcAddress);
 				let lcBalance = await lcContract.methods.balanceOf(address).call();
-				let NftAddress = "0xE9A6aA7D7eEa3E584cc32Be0f8f5Ee20dc51633A";
+				// let NftAddress = "0xE9A6aA7D7eEa3E584cc32Be0f8f5Ee20dc51633A";
 				let NftContract = new web3.eth.Contract(Abi721Nft, NftAddress);
 				let NftBalance = await NftContract.methods.balanceOf(address).call();
 				console.log(lbBalance);

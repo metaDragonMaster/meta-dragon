@@ -21,7 +21,8 @@ export default {
 	data() {
 		return {
 			// web3js:null,
-			keepRoute:['homepage','myAssets']
+			keepRoute:['homepage'],
+			//,'myAssets'
 		}
 	},
 	components: {

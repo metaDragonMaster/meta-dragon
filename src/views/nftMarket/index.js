@@ -97,24 +97,24 @@ export default {
 			setHaveAuth: 'setHaveAuth',
 		}),
 		countDown() {
-			this.timer = setInterval(()=>{
-			// let time = moment.unix(parseInt(timeStamp)).format('YYYY-MM-DD HH:mm:ss'); //未来
+			this.timer = setInterval(() => {
+				// let time = moment.unix(parseInt(timeStamp)).format('YYYY-MM-DD HH:mm:ss'); //未来
 				let timeNow = moment(new Date()).unix()
 				let timeDown = this.timeStamp - timeNow;
 				this.timeDown = this.formatTimeDown(timeDown);
 				// console.log( time)
-			},1000)
+			}, 1000)
 		},
 		formatTimeDown(time) {
-				let lefttime = time
-				// var lefttime = endtime.getTime() - nowtime.getTime() //距离结束时间的毫秒数
-				let leftd = Math.floor(lefttime / (60 * 60 * 24)) //计算天数
-				let lefth = Math.floor(lefttime / (60 * 60) % 24) //计算小时数
-				let leftm = Math.floor(lefttime / (60) % 60) //计算分钟数
-				let lefts = Math.floor(lefttime % 60); //计算秒数
-				// return leftd + "day -" + lefth + "h" + leftm + "m" + lefts + "s"; //返回倒计时的字符串
-				return `${leftd}day-${lefth}h-${leftm}m-${lefts}s `
-			},
+			let lefttime = time
+			// var lefttime = endtime.getTime() - nowtime.getTime() //距离结束时间的毫秒数
+			let leftd = Math.floor(lefttime / (60 * 60 * 24)) //计算天数
+			let lefth = Math.floor(lefttime / (60 * 60) % 24) //计算小时数
+			let leftm = Math.floor(lefttime / (60) % 60) //计算分钟数
+			let lefts = Math.floor(lefttime % 60); //计算秒数
+			// return leftd + "day -" + lefth + "h" + leftm + "m" + lefts + "s"; //返回倒计时的字符串
+			return `${leftd}day-${lefth}h-${leftm}m-${lefts}s `
+		},
 		getTimer() {
 			let web3 = this.web3Provider;
 			web3.eth.getAccounts().then(async res => {
@@ -209,23 +209,42 @@ export default {
 				// console.log(that);
 				that.loading = true;
 				let address = res[0];
-				let {
-					usdtXs,
-					usdtPrice,
-					contract721,
-				} = await that.getUsdtValue();
-				let frequencyUsdtPrice = web3.utils.toBN(usdtPrice * frequency);
-				let sendStatic = await contract721.methods.preSaleWithUSDT(address, frequencyUsdtPrice,
-					frequency).send({
-					from: address
-				})
-				if (sendStatic.status) {
-					that.currentStatic = 1;
-				} else {
+				let usdt_address = UsdtAddress;
+				let contract = new web3.eth.Contract(AbiUSDT, usdt_address);
+				let balanceUsdt = await contract.methods.balanceOf(address).call();
+
+				let nft_address = NftAddress;
+				let contract721 = new web3.eth.Contract(Abi721Nft, nft_address);
+				let usdtPrice = await contract721.methods.getPreSalePrice().call();
+				// let frequencyUsdtPrice = usdtPrice * frequency;
+				let usdtXs = web3.utils.fromWei(usdtPrice);
+
+				//let weiUsdtPrice = web3.utils.toWei(frequencyUsdtPrice)
+				let weiUsdtPrice = web3.utils.toWei(parseInt(usdtXs * frequency).toString());
+				let a = web3.utils.fromWei(weiUsdtPrice);
+				let b = web3.utils.fromWei(balanceUsdt);
+
+				if (parseInt(a) > parseInt(b)) {
+					that.$message.error('usdt not enough');
 					that.currentStatic = 2;
+					that.loading = false;
+				} else {
+					let sendStatic = await contract721.methods.preSaleWithUSDT(address, weiUsdtPrice,
+						frequency).send({
+						from: address
+					})
+					if (sendStatic.status) {
+						that.currentStatic = 1;
+					} else {
+						that.currentStatic = 2;
+					}
+					that.loading = false;
+					console.log(sendStatic);
 				}
+
+			}).catch(e => {
 				that.loading = false;
-				console.log(sendStatic);
+				that.currentStatic = 2;
 			})
 		}
 	}

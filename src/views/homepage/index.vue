@@ -5,9 +5,7 @@
 			Mate Dragon It is a leisure cultivation game based on blockchain technology, where you can break through customs, challenge the arena and make money with your skills
 		</h5>
 		<div class="meta-card">
-			<div class="banner player">
-				<!-- <p>12,064,711</p> -->
-			</div>
+			<div class="banner player"><!-- <p>12,064,711</p> --></div>
 			<ul class="download-buttons">
 				<li class="button button-download banner">
 					<img src="@/assets/homepage/icon-android.png" alt="" />
@@ -27,13 +25,29 @@
 				</li>
 			</ul>
 			<h5 class="introduce-title is-add">$ THG CONTRACT ADDRESS</h5>
-			<p class="opacity-p" v-for="(item,index) in links" @click="mycopy(item.link)">
-				<span>{{item.contract}}</span>
-				<span>{{item.link}}</span>
+			<p class="opacity-p" v-for="(item, index) in links" @click="mycopy(item.link)">
+				<span>{{ item.contract }}</span>
+				<span>{{ item.link }}</span>
 				<img src="@/assets/homepage/icon-copy.png" />
 			</p>
 			<div class="banner button button-inter">IMMEDIATELY</div>
 		</div>
+		<el-dialog class="dialog-dom" title="Get Approve" :visible.sync="dialogHandleValue" center width="90%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+			<div v-show="haveAuth != true && getAuthErr != true">
+				<i class="el-icon-loading"></i>
+				<p>get approve</p>
+				<p>正在获取授权</p>
+				<p></p>
+				
+			</div>
+			<div  v-show="haveAuth != true && getAuthErr == true">
+				<p>授权失败，请重试</p>
+				<p>failed,please try again</p>
+				<el-button @click="getAuth">
+					try again
+				</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>
@@ -123,7 +137,14 @@
 		border-radius: 6px;
 		font-size: 24px;
 		margin-top: 35px;
-		box-shadow: 0 0 12px rgba($color: #10B0FC, $alpha: 1.0);
+		box-shadow: 0 0 12px rgba($color: #10b0fc, $alpha: 1);
+	}
+	::v-deep .dialog-dom {
+		.el-dialog__body > div {
+			display:flex;
+			flex-direction: column;
+			align-items: center;
+		}
 	}
 }
 </style>

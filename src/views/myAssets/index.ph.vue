@@ -22,7 +22,7 @@
 			<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="">
 			<ul class="dragon-table-data-list">
 				<li v-for="item in dragonList"  @click="toDetails">
-					<dragonCard :dragonId="item.properties.id" :cardType="item.cardType" :stars="item.stars" :skills="defaultSkills"></dragonCard>
+					<dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="defaultSkills"></dragonCard>
 				</li>
 			</ul>
 		</div>
