@@ -2,6 +2,11 @@ import Abi721Nft from "@/jsons/abi-721-NFT.js";
 import AbiLCErc20 from "@/jsons/abi-LC-ERC20.js";
 import AbiUSDT from "@/jsons/USDT_token_abi.js";
 import Decimal from "decimal.js";
+import moment from "moment";
+import {
+	NftAddress,
+	UsdtAddress,
+} from "@/jsons/contractAddress.js"
 import {
 	mapActions,
 	mapGetters,
@@ -32,7 +37,10 @@ export default {
 					type: 'error',
 					title: 'hatching failure',
 				},
-			]
+			],
+			timeStamp: '',
+			timeDown: '',
+			timer: null,
 		}
 	},
 	computed: {
@@ -46,37 +54,90 @@ export default {
 				title: "",
 				type: ""
 			}
-		}
+		},
+		// formatTimeDown() {
+		// 	return function(time) {
+		// 		let lefttime = time
+		// 		// var lefttime = endtime.getTime() - nowtime.getTime() //距离结束时间的毫秒数
+		// 		let leftd = Math.floor(lefttime / (60 * 60 * 24)) //计算天数
+		// 		let lefth = Math.floor(lefttime / (60 * 60) % 24) //计算小时数
+		// 		let leftm = Math.floor(lefttime / (60) % 60) //计算分钟数
+		// 		let lefts = Math.floor(lefttime % 60); //计算秒数
+		// 		return leftd + "天" + lefth + ":" + leftm + ":" + lefts; //返回倒计时的字符串
+		// 	}
+		// },
 	},
-	watch:{
+	watch: {
 		currentStatic(n) {
-			if(n === 1) {
-				setTimeout(()=>{
+			if (n === 1) {
+				setTimeout(() => {
 					this.currentStatic = -1
-				},3000)
+				}, 3000)
 			}
 		}
 	},
 	mounted() {
 		this.$nextTick(async () => {
-			if(!this.web3Provider) return;
+			if (!this.web3Provider) return;
 			this.getAuth()
-			// let {
-			// 	usdtXs
-			// } = await this.getUsdtValue();
-			// this.usdtValue = usdtXs;
+			this.getTimer()
+			// this.countDown()
+			let {
+				usdtXs
+			} = await this.getUsdtValue();
+			console.log("usdtXs", usdtXs)
+			this.usdtValue = usdtXs;
 		})
+	},
+	beforeDestroy() {
+		clearInterval(this.timer)
 	},
 	methods: {
 		...mapActions({
 			setHaveAuth: 'setHaveAuth',
 		}),
-		async getUsdtValue() {
-			if(!this.web3Provider||!this.haveAuth) return;
+		countDown() {
+			this.timer = setInterval(()=>{
+			// let time = moment.unix(parseInt(timeStamp)).format('YYYY-MM-DD HH:mm:ss'); //未来
+				let timeNow = moment(new Date()).unix()
+				let timeDown = this.timeStamp - timeNow;
+				this.timeDown = this.formatTimeDown(timeDown);
+				// console.log( time)
+			},1000)
+		},
+		formatTimeDown(time) {
+				let lefttime = time
+				// var lefttime = endtime.getTime() - nowtime.getTime() //距离结束时间的毫秒数
+				let leftd = Math.floor(lefttime / (60 * 60 * 24)) //计算天数
+				let lefth = Math.floor(lefttime / (60 * 60) % 24) //计算小时数
+				let leftm = Math.floor(lefttime / (60) % 60) //计算分钟数
+				let lefts = Math.floor(lefttime % 60); //计算秒数
+				// return leftd + "day -" + lefth + "h" + leftm + "m" + lefts + "s"; //返回倒计时的字符串
+				return `${leftd}day-${lefth}h-${leftm}m-${lefts}s `
+			},
+		getTimer() {
 			let web3 = this.web3Provider;
-			let nft_address = "0xE9A6aA7D7eEa3E584cc32Be0f8f5Ee20dc51633A";
+			web3.eth.getAccounts().then(async res => {
+				let address = res[0];
+				// let contractAddress = "0x538D0e0857868077D70F7e977f4A3d5518A5aB01";
+				let contractAddress = NftAddress;
+				let contract = new web3.eth.Contract(Abi721Nft, contractAddress);
+				let timeStamp = await contract.methods.getPreSaleStopTimestamp().call();
+				console.log("timeStamp -- ", timeStamp);
+				// let newTime = 
+				this.timeStamp = timeStamp;
+				this.countDown()
+			}).catch(e => {
+				console.log(e)
+			})
+		},
+		async getUsdtValue() {
+			if (!this.web3Provider || !this.haveAuth) return;
+			let web3 = this.web3Provider;
+			// let nft_address = "0x538D0e0857868077D70F7e977f4A3d5518A5aB01";
+			let nft_address = NftAddress;
 			let contract721 = new web3.eth.Contract(Abi721Nft, nft_address);
-			let usdtPrice = await contract721.methods.getUSDT_Price().call();
+			let usdtPrice = await contract721.methods.getPreSalePrice().call();
 			let usdtXs = web3.utils.fromWei(usdtPrice);
 			return {
 				usdtXs,
@@ -85,22 +146,24 @@ export default {
 			};
 		},
 		getAuth() {
-			if(!this.web3Provider) return;
-			if(this.haveAuth) return;
+			if (!this.web3Provider) return;
+			if (this.haveAuth) return;
 			let web3 = this.web3Provider;
 			web3.eth.getAccounts().then(async res => {
 				console.log(res);
 				this.loading = true;
 				let address = res[0];
-				let contractAddress = "0xE9A6aA7D7eEa3E584cc32Be0f8f5Ee20dc51633A";
-				let usdt_address = "0xDA222D32dD3fec7bE55f5fA2FD2dA3400a4DE4CE";
+				// let contractAddress = "0x538D0e0857868077D70F7e977f4A3d5518A5aB01";
+				let contractAddress = NftAddress;
+				let usdt_address = UsdtAddress;
 				let contract = new web3.eth.Contract(AbiUSDT, usdt_address);
 				let rs = await contract.methods.allowance(address, contractAddress).call();
 				// console.log(rs);
 				let y = new Decimal(rs)
 				// console.log(y);
 				let contract721 = new web3.eth.Contract(Abi721Nft, contractAddress);
-				let usdt_price = await contract721.methods.getUSDT_Price().call();
+				let usdt_price = await contract721.methods.getPreSalePrice().call();
+				console.log(usdt_price);
 				// let usdt = new Decimal(usdt_price);
 				if (y.sub(usdt_price) < 0) {
 					let usdtContract = new web3.eth.Contract(AbiUSDT, usdt_address);
@@ -112,14 +175,14 @@ export default {
 							).send({
 								from: address
 							})
-						if(sendStatic.status) {
+						if (sendStatic.status) {
 							this.setHaveAuth(true)
 						} else {
 							this.$message.warning("approve grant failed")
 							// console.log('授权成功')
 						}
 						this.loading = false;
-					} catch(e) {
+					} catch (e) {
 						this.$message.warning("approve grant failed")
 						this.loading = false;
 					}
@@ -131,8 +194,8 @@ export default {
 			})
 		},
 		ethSend(frequency) {
-			if(!this.web3Provider) return;
-			if(this.loading) return;
+			if (!this.web3Provider) return;
+			if (this.loading) return;
 			let that = this;
 			let web3 = this.web3Provider;
 			web3.eth.getAccounts((error, result) => {
@@ -151,11 +214,12 @@ export default {
 					usdtPrice,
 					contract721,
 				} = await that.getUsdtValue();
-				let frequencyUsdtPrice = web3.utils.toBN(usdtPrice * frequency) ;
-				let sendStatic = await contract721.methods.payUSDT(address, frequencyUsdtPrice, frequency).send({
+				let frequencyUsdtPrice = web3.utils.toBN(usdtPrice * frequency);
+				let sendStatic = await contract721.methods.preSaleWithUSDT(address, frequencyUsdtPrice,
+					frequency).send({
 					from: address
 				})
-				if(sendStatic.status) {
+				if (sendStatic.status) {
 					that.currentStatic = 1;
 				} else {
 					that.currentStatic = 2;

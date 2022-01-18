@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import layout from "@/layout/index.vue"
+import store from "@/store/index.js"
 Vue.use(VueRouter)
 
 function watchPC() {
@@ -49,16 +50,16 @@ const routes = [{
 			meta: {
 				title: 'nft-market'
 			},
-			component: () => isPc ? import('@/views/nftMarket/index.vue') : import('@/views/nftMarket/index.ph.vue'),
+			component: () => isPc ? import('@/views/nftMarket/index.vue') : import(
+				'@/views/nftMarket/index.ph.vue'),
 		},
 	]
 
 }]
 
-
 const router = new VueRouter({
 	routes,
-	mode:'hash',
+	mode: 'hash',
 	scrollBehavior(to, from, savedPosition) {
 		return {
 			x: 0,
@@ -67,5 +68,17 @@ const router = new VueRouter({
 		}
 	},
 })
+router.beforeEach(async (to, from, next) => {
+	if (to.path != '/homepage' && !store.state.haveAuth) {
+		next('/homepage')
+	} else {
+		next()
+	}
+
+})
+// const routerPush = router.prototype.push;
+// router.prototype.push = function push(location, onResolve, onReject) {
+// 	return routerPush.call(this, location, onResolve, onReject)
+// }
 
 export default router

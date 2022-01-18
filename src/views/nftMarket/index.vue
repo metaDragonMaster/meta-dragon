@@ -1,7 +1,11 @@
 <template>
 	<div class="nft-market-view banner">
 		<img class="title" src="@/assets/text-shadow/go-live.png" alt="" />
-		<div class="timer-model"><p class="timer">255:999:999</p></div>
+		<div class="timer-model"><p class="timer">
+			{{timeDown}}
+			<!-- {{formatTimeDown}} -->
+		<!-- 255:999:999 -->
+		</p></div>
 		<div class="egg-frame"><img class="egg" src="@/assets/nft-market/egg.png" alt="" /></div>
 		
 		<!-- v-show="loading" -->

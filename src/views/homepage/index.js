@@ -88,6 +88,7 @@ export default {
 				} else {
 					//取消授权按
 					// this.loading = false;
+					this.$message.success("approve 已经有了")
 					this.setHaveAuth(true)
 				}
 				// console.log(this.haveAuth)
