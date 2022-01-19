@@ -21,8 +21,8 @@ export default {
 	data() {
 		return {
 			// web3js:null,
-			keepRoute:['homepage'],
-			//,'myAssets'
+			// keepRoute:['homepage'],
+			keepRoute:['homepage','myAssets'],
 		}
 	},
 	components: {
@@ -72,28 +72,38 @@ export default {
 			if(!web3Provider) {
 				this.todo();
 			} 
-			// else {
-			// 	this.$message('you have web3Provider')
-			// }
 		},
 		todo() {
 			let that = this;
-			let web3Provider;
-			if (window.ethereum) {
-				web3Provider = window.ethereum;
+			let web3Provider = window.ethereum;;
+			
+			if (web3Provider) {
 				try {
 					// 请求用户授权
-					window.ethereum.enable();
+					web3Provider.enable();
 					console.log("web3Provider---",web3Provider);
 					console.log("web3Provider---",web3Provider.chainId);
-					// if(web3Provider.chainId != '0x38') {
-					// 	this.$message.error('Please switch the BSC network');
-					// 	return ;
-					// }
+					if(web3Provider.chainId == '0x38') {
+						let web3js = new Web3(web3Provider); //web3js就是你需要的web3实例
+						this.setWeb3Provider(web3js)
+						console.log(this.web3Provider)
+						web3js.eth.getAccounts(function(error, result) {
+							if (!error) {
+								console.log(result);
+								that.setEthAddress(result[0]);
+							} //授权成功后result能正常获取到账号了
+							// result: ['0x5c2571f4AaBc057a100bDfc058264EEE9C65C3D3']
+						});
+					} else {
+						// this.$message.error('Please switch the BSC network');
+						this.$message({
+							duration: 0,
+							type: 'error',
+							message: 'Please switch the BSC network'
+						})
+					}
 					// 0x61 测试网络
 					// 0x38 正式网络
-					// console.log('User have ethereum');
-					// this.$message.success('User have ethereum');
 				} catch (error) {
 					// 用户不授权时
 					console.error('User denied account access');
@@ -101,16 +111,6 @@ export default {
 					throw new Error(error);
 				}
 			}
-			let web3js = new Web3(web3Provider); //web3js就是你需要的web3实例
-			this.setWeb3Provider(web3js)
-			console.log(this.web3Provider)
-			web3js.eth.getAccounts(function(error, result) {
-				if (!error) {
-					console.log(result);
-					that.setEthAddress(result[0]);
-				} //授权成功后result能正常获取到账号了
-				// result: ['0x5c2571f4AaBc057a100bDfc058264EEE9C65C3D3']
-			});
 			// console.log(this.$store.state.web3Provider);
 		},
 		getAccounts() {

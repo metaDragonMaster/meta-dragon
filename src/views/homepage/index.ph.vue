@@ -25,16 +25,17 @@
 			</p>
 			<p>{{item.link}}</p>
 		</div>
-		<el-dialog class="dialog-dom" title="获取认证" :visible.sync="dialogHandleValue" center width="90%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+		<el-dialog class="dialog-dom" title="Get Approve" :visible.sync="dialogHandleValue" center width="90%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
 			<div v-show="haveAuth != true && getAuthErr != true">
 				<i class="el-icon-loading"></i>
-				正在获取认证
+				<p>get approve</p>
+				<p>正在获取授权</p>
 			</div>
 			<div  v-show="haveAuth != true && getAuthErr == true">
-				认证失败，请重试
-				<br />
+				<p>授权失败，请重试</p>
+				<p>failed,please try again</p>
 				<el-button @click="getAuth">
-					获取认证
+					try again
 				</el-button>
 			</div>
 		</el-dialog>
@@ -44,7 +45,7 @@
 <style lang="scss" scoped="scoped">
 .homepage-view {
 	min-height: 100vh;
-	background-image: url('~@/assets/homepage/meta-bg.ph.png');
+	background-image: url('~@/assets/homepage/meta-bg-ph.png');
 	background-color: #D6F956;
 	background-size: 100%;
 	padding-bottom: 20px;

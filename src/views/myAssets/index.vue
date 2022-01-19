@@ -21,11 +21,13 @@
 			v-loading="loading"
 			:element-loading-background="elementLoadingBackground"
 		>
-			<p class="all-assets">All Assets：{{ dragonList.length }}</p>
+			<p class="all-assets">All Assets:{{ dragonList.length }}</p>
 			<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="" />
 			<ul class="dragon-table-data-list">
-				<li v-for="item in dragonList" @click="toDetails">
-					<dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="defaultSkills"></dragonCard>
+				<li v-for="item in dragonList" @click="toDetails(item)" :key="item.id">
+					<!-- <dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="defaultSkills" :dragonImage="item.dragonImage"></dragonCard> -->
+					<!-- <dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="defaultSkills" :dragonImage="item.dragonImage"></dragonCard> -->
+					<dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="item.skillImages" :dragonImage="item.dragonImage"></dragonCard>
 				</li>
 			</ul>
 		</div>

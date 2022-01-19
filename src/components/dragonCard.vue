@@ -6,14 +6,38 @@
 	>
 		<p class="RGB-text left">#{{dragonId}}</p>
 		<p class="left">{{dragonName}}</p>
-		<img class="dragon-image" src="@/assets/myAssets/dragon.png" alt="" />
+		<!-- <img class="dragon-image" src="@/assets/myAssets/dragon.png" alt="" /> -->
+		<img class="dragon-image" :src="dragonImage" alt="" />
 		<Rate :stars="stars"></Rate>
 		<ul class="skill-list">
-			<li v-for="item in skills"><img :src="item.image" alt="image error" /></li>
+			<li v-for="item in skills"><img :src="item" alt="image error" /></li>
 		</ul>
 	</div>
 </template>
 <script>
+/*
+	{
+	    "description": "Obsidian heart10202000520093",
+	    "external_url": "https://storageapi.fleek.co/f5158214-e839-49b4-a90e-fe6166fa3536-bucket/image_20/blue/Dragon_yuansu_005/10202000520093.jpg",
+	    "image": "https://storageapi.fleek.co/f5158214-e839-49b4-a90e-fe6166fa3536-bucket/image_20/blue/Dragon_yuansu_005/10202000520093.jpg",
+	    "name": "Obsidian heart",
+	    "properties": {
+	        "id": 10012,
+	        "name": "Obsidian heart",
+	        "quality": 1,
+	        "camp": 2,
+	        "GrowUp": 1.4,
+	        "energy": 20,
+	        "hp": 180,
+	        "attack": 60,
+	        "defense": 20,
+	        "skill": "5031,5013,5011,5018",
+	        "speed": 23,
+	        "critRate": 1000,
+	        "critDamage": 1.5
+	    }
+	}
+*/
 import rate from './rate.vue';
 export default {
 	data() {
@@ -33,6 +57,9 @@ export default {
 		// dragonImage: {
 		// 	default: 
 		// },
+		dragonImage:{
+			default:require('@/assets/myAssets/dragon.png')
+		},
 		dragonId:{
 			type:[String,Number],
 			default:''

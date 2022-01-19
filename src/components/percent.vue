@@ -2,8 +2,8 @@
 	<div class="percent">
 		<p class="percent-value">
 			<span>{{currentValue}}</span>
-			<i>|</i>
-			<span>{{maxValue}}</span>
+			<!-- <i>|</i> -->
+			<!-- <span>{{maxValue}}</span> -->
 		</p>
 		<div class="percent-speed">
 			<div class="speed" :style="{
@@ -29,6 +29,7 @@ export default {
 	},
 	methods: {
 		getPercent(num, total) {
+			if(total == '*') return '100%';
 			num = parseFloat(num);
 			total = parseFloat(total);
 			if (isNaN(num) || isNaN(total)) {

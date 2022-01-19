@@ -7,11 +7,11 @@
 		<div class="dragon-info-card">
 			<div class="skill-module">
 				<p class="dragon-name">Dragon_ziran_01</p>
-				<rate :stars="3"></rate>
+				<rate :stars="0"></rate>
 				<p class="dragon-skill-title">Skill:</p>
 				<ul class="dragon-skill-list">
 					<li v-for="item in dragonSkills">
-						<img class="skill" :src="item.skillImage" alt="">
+						<img class="skill" :src="item.skillImageF" alt="">
 						<img class="lv-border" :src='item.skillBorderImage' alt="">
 					</li>
 				</ul>
@@ -19,9 +19,10 @@
 			<div class="dragon-info">
 				<div class="center">
 					<div class="lv-border">
-						<span>Lv.56</span>
+						<span>Lv.0</span>
 					</div>
-					<img class="dragon-image" src="@/assets/myAssets-details/dragon.png" alt="">
+					<!-- <img class="dragon-image" src="@/assets/myAssets-details/dragon.png" alt=""> -->
+					<img class="dragon-image" :src="dragonInfo.dragonImage" alt="">
 					<!-- <button class="arrow-button arrow-left">
 						<img src="@/assets/myAssets-details/arrow-left.png" alt="">
 					</button>
@@ -75,7 +76,7 @@
 					<p class="skill-intro">{{item.skillIntro}}</p>
 				</li>
 			</ul>
-			<div class="children module">
+			<!-- <div class="children module">
 				<p class="title">Children:</p>
 				<ul class="dragon-table-data-list">
 					<li v-for="item in dragonList" >
@@ -90,12 +91,14 @@
 						<dragonCard :cardType="item.cardType" :stars="item.stars" :skills="defaultSkills"></dragonCard>
 					</li>
 				</ul>
-			</div>
+			</div> -->
 			<div class="wallet-address module">
 				<p class="title">Wallet address:</p>
+				<p class="title-sub">Buyers</p>
 				<div class="bay-button">
-					<span>Buyers</span>
-					<span>0x9542176cb2e503a1...ea726f15</span>
+					<span>
+						{{ethAddress}}
+					</span>
 					<img class="image" src="@/assets/myAssets-details/wallet-address-icon.png" alt="">
 				</div>
 			</div>
@@ -157,7 +160,10 @@
 					top: 0;
 				}
 				.skill {
-					margin: 14px;
+					// margin: 14px;
+					padding: 16px;
+					width: 100%;
+					height: 100%;
 				}
 			}
 		}
@@ -359,6 +365,12 @@
 			// grid-column-gap: 40px;
 			grid-row-gap: 12px;
 		}
+		.wallet-address {
+			.title-sub {
+				margin-left :18px;
+				margin-bottom : 8px;
+			}
+		}
 		.bay-button {
 			@include GradualBGColor;
 			width: 335px;
@@ -370,7 +382,7 @@
 			border-radius: 4px;
 			margin: 0 auto;
 			.image {
-				width: 34px;
+				width: 28px;
 			}
 		}
 	}

@@ -37,8 +37,6 @@
 				<i class="el-icon-loading"></i>
 				<p>get approve</p>
 				<p>正在获取授权</p>
-				<p></p>
-				
 			</div>
 			<div  v-show="haveAuth != true && getAuthErr == true">
 				<p>授权失败，请重试</p>

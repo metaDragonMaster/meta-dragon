@@ -15,24 +15,16 @@ export default {
 	data:()=>({
 		links:[
 			{
-				contract: 'BEP20',
-				link: '0x9fd87aefe02441b123c3c32466cd9db4c58618f'
+				contract: 'LB',
+				link: '0x7948d6bc05da31b4a0e0ac1060d4c3bd26ced322'
 			},
 			{
-				contract: 'BEP20',
-				link: '0x9fd87aefe02441b123c3c32466cd9db4c58618f'
+				contract: 'LC',
+				link: '0x75325deec14DA345a440C0212f263Fc72BcfE45F'
 			},
 			{
-				contract: 'BEP20',
-				link: '0x9fd87aefe02441b123c3c32466cd9db4c58618f'
-			},
-			{
-				contract: 'BEP20',
-				link: '0x9fd87aefe02441b123c3c32466cd9db4c58618f'
-			},
-			{
-				contract: 'BEP20',
-				link: '0x9fd87aefe02441b123c3c32466cd9db4c58618f'
+				contract: 'NFT',
+				link: '0x68102434902f1d995C7397f7DaC64cCfFfB0B328'
 			},
 		],
 		dialogHandleValue:false,
@@ -54,7 +46,9 @@ export default {
 			setHaveAuth: 'setHaveAuth',
 		}),
 		getAuth() {
+			console.log('homepage',this.web3Provider)
 			if (!this.web3Provider) return;
+			console.log("this.web3Provider--4456");
 			this.dialogHandleValue = true;
 			this.getAuthErr = false;
 			let web3 = this.web3Provider;

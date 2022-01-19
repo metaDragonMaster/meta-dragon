@@ -15,11 +15,15 @@
 		<div v-else >
 			<button  class="send-button" @click="ethSend(1)" :disabled="loading">
 				<i class="el-icon-loading" v-show="loading"></i>
-				单抽  {{usdtValue}}USDT
+				1 sommon {{usdtValue}}USDT
 			</button>
 			<button  class="send-button" @click="ethSend(10)" :disabled="loading">
 				<i class="el-icon-loading" v-show="loading"></i>
-				十连抽  {{usdtValue*10}}USDT
+				10 sommon   {{usdtValue*10}}USDT
+			</button>
+			<button  class="send-button" @click="ethSend(50)" :disabled="loading">
+				<i class="el-icon-loading" v-show="loading"></i>
+				50 sommon {{usdtValue*50}}USDT
 			</button>
 		</div>
 	</div>
