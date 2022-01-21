@@ -75,7 +75,7 @@ export default {
 		},
 		todo() {
 			let that = this;
-			let web3Provider = window.ethereum;;
+			let web3Provider = window.ethereum;
 			
 			if (web3Provider) {
 				try {
@@ -87,12 +87,8 @@ export default {
 						let web3js = new Web3(web3Provider); //web3js就是你需要的web3实例
 						this.setWeb3Provider(web3js)
 						console.log(this.web3Provider)
-						web3js.eth.getAccounts(function(error, result) {
-							if (!error) {
-								console.log(result);
-								that.setEthAddress(result[0]);
-							} //授权成功后result能正常获取到账号了
-							// result: ['0x5c2571f4AaBc057a100bDfc058264EEE9C65C3D3']
+						web3js.eth.getAccounts().then(res=>{
+							that.setEthAddress(res[0]);
 						});
 					} else {
 						// this.$message.error('Please switch the BSC network');

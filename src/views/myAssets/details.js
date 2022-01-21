@@ -301,28 +301,7 @@ export default {
 				skillImageS:skillImageS5008,
 			},
 		],
-		dragonSkills:[
-			// {
-			// 	lv:1,
-			// 	skillImage:require("@/assets/myAssets-details/skill-1.png"),
-			// 	skillBorderImage:require("@/assets/myAssets-details/lv-border-1.png"),
-			// },
-			// {
-			// 	lv:2,
-			// 	skillImage:require("@/assets/myAssets-details/skill-2.png"),
-			// 	skillBorderImage:require("@/assets/myAssets-details/lv-border-2.png"),
-			// },
-			// {
-			// 	lv:3,
-			// 	skillImage:require("@/assets/myAssets-details/skill-3.png"),
-			// 	skillBorderImage:require("@/assets/myAssets-details/lv-border-3.png"),
-			// },
-			// {
-			// 	lv:4,
-			// 	skillImage:require("@/assets/myAssets-details/skill-4.png"),
-			// 	skillBorderImage:require("@/assets/myAssets-details/lv-border-4.png"),
-			// },
-		],
+		dragonSkills:[],
 		skillSList: [
 			{
 				id:'1',
@@ -404,7 +383,7 @@ export default {
 		attributeList:[
 			{
 				image:require("@/assets/myAssets-details/attr-health.png"),
-				name:'Life',
+				name:'Hp',
 				key:'hp',
 				currentValue:'0',
 				maxValue:'*'
@@ -445,6 +424,24 @@ export default {
 				maxValue:'*'
 			},
 		],
+		qualityTypes:[
+			{
+				key:'1',
+				value:'Excellent'
+			},
+			{
+				key:'2',
+				value:'Excellence'
+			},
+			{
+				key:'3',
+				value:'Epic'
+			},
+			{
+				key:'4',
+				value:'Legend'
+			},
+		]
 		
 	}},
 	computed: {
@@ -462,16 +459,22 @@ export default {
 	mounted() {
 		let params = JSON.parse(JSON.stringify(this.$route.params));
 		if(params) {
-			console.log('have params')
+			// console.log('have params');
 			let skillIds = params.properties.skill.split(',');
 			let skills = [];			
 			skillIds.map(skillId=>{
 				this.skillsList.map(item=>{
 					if(item.id == skillId) {
-						item.skillBorderImage = this.skillLvList.filter(lvItem=>item.quality == item.quality)[0].skillBorderImage
+						item.skillBorderImage = this.skillLvList.filter(lvItem=>{
+							if(item.quality == lvItem.quality) {
+								// console.log(lvItem);
+								return lvItem
+							}
+						})[0].skillBorderImage;
+						// console.log(item.skillborderImage)
 						skills.push({
 							...item
-						})
+						});
 					}
 				})
 			})
@@ -479,23 +482,25 @@ export default {
 			this.attributeList.map(item=>{
 				for(let i in Attrs) {
 					if(item.key == i) {
-						item.currentValue = Attrs[i]
+						item.currentValue = Attrs[i];
 					}
 				}
 			})
 			this.materialList.map(item=>{
 				for(let i in Attrs) {
 					if(item.key == i) {
-						item.value = Attrs[i]
+						if(item.key == 'quality') {
+							item.value = this.qualityTypes.filter(qualityType=>qualityType.key == Attrs['quality'].toString())[0].value || '*';
+						} else {
+							item.value = Attrs[i];
+						}
 					}
 				}
 			})
-			
-			console.log(skills)
+			// console.log(skills);
 			this.dragonSkills = skills;
-			// params.properties.skill = skillIds.split(',');
 			this.dragonInfo = params;
-			console.log(this.dragonInfo);
+			// console.log(this.dragonInfo);
 		} else {
 			this.$router.replace('/myAssets')
 		}
