@@ -107,12 +107,10 @@ export default {
 		},
 		formatTimeDown(time) {
 			let lefttime = time
-			// var lefttime = endtime.getTime() - nowtime.getTime() //距离结束时间的毫秒数
 			let leftd = Math.floor(lefttime / (60 * 60 * 24)) //计算天数
 			let lefth = Math.floor(lefttime / (60 * 60) % 24) //计算小时数
 			let leftm = Math.floor(lefttime / (60) % 60) //计算分钟数
 			let lefts = Math.floor(lefttime % 60); //计算秒数
-			// return leftd + "day -" + lefth + "h" + leftm + "m" + lefts + "s"; //返回倒计时的字符串
 			return `${leftd}day-${lefth}h-${leftm}m-${lefts}s `
 		},
 		getTimer() {
@@ -198,13 +196,7 @@ export default {
 			if (this.loading) return;
 			let that = this;
 			let web3 = this.web3Provider;
-			web3.eth.getAccounts((error, result) => {
-				if (!error) {
-					this.currentStatic = 0;
-					// console.log(result);
-				} //授权成功后result能正常获取到账号了
-				// result: ['0x5c2571f4AaBc057a100bDfc058264EEE9C65C3D3']
-			}).then(async res => {
+			web3.eth.getAccounts().then(async res => {
 				// console.log(res);
 				// console.log(that);
 				that.loading = true;
@@ -231,7 +223,8 @@ export default {
 				} else {
 					let sendStatic = await contract721.methods.preSaleWithUSDT(address, weiUsdtPrice,
 						frequency).send({
-						from: address
+						from: address,
+						// gas :
 					})
 					if (sendStatic.status) {
 						that.currentStatic = 1;

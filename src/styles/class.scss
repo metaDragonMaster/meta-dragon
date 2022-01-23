@@ -4,9 +4,9 @@
 	background-size: cover;
 }
 @mixin mixin-limit-max-width {
-	$width: 1660px;
-	min-width: $width;
-	padding: 0 calc((100% - $width) / 2);
+	// $width: 1660px;
+	min-width: 1660px;
+	padding: 0 calc((100% - 1660px) / 2);
 }
 .limit-max-width,
 div[limit-max-width]{
