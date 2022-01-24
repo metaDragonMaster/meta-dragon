@@ -8,21 +8,25 @@
 			<div class="banner player"><!-- <p>12,064,711</p> --></div>
 			<ul class="download-buttons">
 				<li class="button button-download banner">
-					<img src="@/assets/homepage/icon-android.png" alt="" />
-					<p>ANDROID</p>
+					<a :href="downloadLink.android" download>
+						<img src="@/assets/homepage/icon-android.png" alt="" />
+						<p>ANDROID</p>
+					</a>
 				</li>
-				<li class="button button-download banner">
+				<!-- <li class="button button-download banner">
 					<img src="@/assets/homepage/icon-iphone.png" alt="" />
 					<p>IOS</p>
-				</li>
+				</li> -->
 				<li class="button button-download banner">
-					<img src="@/assets/homepage/icon-windows.png" alt="" />
-					<p>PC</p>
+					<a :href="downloadLink.exe" download>
+						<img src="@/assets/homepage/icon-windows.png" alt="" />
+						<p>PC</p>
+					</a>
 				</li>
-				<li class="button button-download banner">
+				<!-- <li class="button button-download banner">
 					<img src="@/assets/homepage/icon-android.png" alt="" />
 					<p>.APK</p>
-				</li>
+				</li> -->
 			</ul>
 			<h5 class="introduce-title is-add">$ THG CONTRACT ADDRESS</h5>
 			<p class="opacity-p" v-for="(item, index) in links" @click="mycopy(item.link)">
@@ -41,7 +45,8 @@
 			<div  v-show="haveAuth != true && getAuthErr == true">
 				<p>授权失败，请重试</p>
 				<p>failed,please try again</p>
-				<el-button @click="getAuth">
+				<!-- <el-button @click="getAuth"> -->
+				<el-button @click="getLbAuth">
 					try again
 				</el-button>
 			</div>
@@ -89,7 +94,7 @@
 		font-size: 44px;
 	}
 	.download-buttons {
-		justify-content: space-between;
+		// justify-content: space-between;
 		margin-bottom: 15px;
 		display: flex;
 		li {
@@ -99,6 +104,7 @@
 			height: 88px;
 			text-align: center;
 			padding-top: 20px;
+			margin-right: 50px;
 		}
 	}
 	.download-buttons ~ .introduce-title {

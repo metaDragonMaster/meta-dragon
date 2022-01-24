@@ -431,7 +431,7 @@ export default {
 			},
 			{
 				key:'2',
-				value:'Excellence'
+				value:'Senior'
 			},
 			{
 				key:'3',

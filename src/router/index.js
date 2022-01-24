@@ -53,6 +53,14 @@ const routes = [{
 			component: () => isPc ? import('@/views/nftMarket/index.vue') : import(
 				'@/views/nftMarket/index.ph.vue'),
 		},
+		// {
+		// 	path: '/whiteBook',
+		// 	name: 'whiteBook',
+		// 	meta: {
+		// 		title: 'nft-market'
+		// 	},
+		// 	component: () =>  import('@/views/whiteBook/index.vue'),
+		// },
 	]
 
 }]
@@ -74,7 +82,6 @@ router.beforeEach(async (to, from, next) => {
 	} else {
 		next()
 	}
-
 })
 // const routerPush = router.prototype.push;
 // router.prototype.push = function push(location, onResolve, onReject) {

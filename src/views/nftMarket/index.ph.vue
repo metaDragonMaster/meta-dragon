@@ -1,9 +1,9 @@
 <template>
 	<div class="nft-market-view ">
 		<img class="title" src="@/assets/text-shadow/go-live.png" alt="">
-		<div class="timer-model">
+	<!-- 	<div class="timer-model">
 			<p class="timer">{{timeDown}}</p>
-		</div>
+		</div> -->
 		<div class="egg-frame">
 			<img class="egg" src="@/assets/nft-market/egg.png" alt="">
 		</div>
@@ -13,18 +13,18 @@
 			获取授权
 		</button>
 		<div v-else >
-			<button  class="send-button" @click="ethSend(1)" :disabled="loading">
+			<button  class="send-button" @click="ethLbSend(1)" :disabled="loading">
 				<i class="el-icon-loading" v-show="loading"></i>
-				1 sommon {{usdtValue}}USDT
+				1 sommon {{usdtValue}}LB
 			</button>
-			<button  class="send-button" @click="ethSend(10)" :disabled="loading">
+			<button  class="send-button" @click="ethLbSend(10)" :disabled="loading">
 				<i class="el-icon-loading" v-show="loading"></i>
-				10 sommon   {{usdtValue*10}}USDT
+				10 sommon   {{usdtValue*10}}LB
 			</button>
-			<button  class="send-button" @click="ethSend(50)" :disabled="loading">
+			<!-- <button  class="send-button" @click="ethLbSend(50)" :disabled="loading">
 				<i class="el-icon-loading" v-show="loading"></i>
-				50 sommon {{usdtValue*50}}USDT
-			</button>
+				50 sommon {{usdtValue*50}}LB
+			</button> -->
 		</div>
 	</div>
 </template>

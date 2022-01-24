@@ -34,7 +34,11 @@ export default {
 				{
 					title: 'MY ASSETS',
 					path: '/myAssets'
-				}
+				},
+				// {
+				// 	title: 'WHITE BOOK',
+				// 	path: '/whiteBook'
+				// },
 			]
 		};
 	},
