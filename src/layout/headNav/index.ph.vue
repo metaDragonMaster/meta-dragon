@@ -36,6 +36,10 @@ export default {
 				// 	title: 'WHITE BOOK',
 				// 	path: '/whiteBook'
 				// },
+				{
+					title: 'Auth Code',
+					path: '/myAuthorizationCode'
+				},
 			]
 		};
 	},

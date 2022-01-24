@@ -12,6 +12,7 @@
 		<ul class="skill-list">
 			<li v-for="item in skills"><img :src="item" alt="image error" /></li>
 		</ul>
+		<slot></slot>
 	</div>
 </template>
 <script>

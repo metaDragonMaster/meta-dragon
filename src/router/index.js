@@ -34,6 +34,27 @@ const routes = [{
 			},
 			component: () => isPc ? import('@/views/myAssets/index.vue') : import(
 				'@/views/myAssets/index.ph.vue'),
+			redirect: '/myAssets/assetsList',
+			children:[
+				{
+					path: 'assetsList',
+					name: 'assetsList',
+					meta: {
+						title: 'assets-list'
+					},
+					component: () => isPc ? import('@/views/myAssets/assetsList/assetsList.vue') : import(
+						'@/views/myAssets/assetsList/assetsList.ph.vue'),
+				},
+				// {
+				// 	path: 'hatchEgg',
+				// 	name: 'hatchEgg',
+				// 	meta: {
+				// 		title: 'hatch-egg'
+				// 	},
+				// 	component: () => isPc ? import('@/views/myAssets/hatchEgg/hatchEgg.vue') : import(
+				// 		'@/views/myAssets/hatchEgg/hatchEgg.ph.vue'),
+				// },
+			]
 		},
 		{
 			path: '/myAssets/details',
@@ -61,6 +82,14 @@ const routes = [{
 		// 	},
 		// 	component: () =>  import('@/views/whiteBook/index.vue'),
 		// },
+		{
+			path: '/myAuthorizationCode',
+			name: 'myAuthorizationCode',
+			meta: {
+				title: 'my-authorization-code'
+			},
+			component: () => isPc ? import('@/views/myAuthorizationCode/index.vue') : import('@/views/myAuthorizationCode/index.ph.vue'),
+		},
 	]
 
 }]

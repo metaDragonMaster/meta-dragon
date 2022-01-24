@@ -1,7 +1,6 @@
 <template>
 	<div class="my-assets-view banner limit-max-width">
-		<img class="view-title" src="@/assets/text-shadow/my-assets.png" alt="" />
-		<!-- <rate :stars="4"></rate> -->
+		<img class="title-image" src="@/assets/text-shadow/my-assets.png" alt="" />
 		<ul class="dragon-grid-max-col-4">
 			<li
 				v-for="(item, index) in dragonGridList"
@@ -17,33 +16,48 @@
 				<span>{{ item.type }}</span>
 			</li>
 		</ul>
-		<div class="assets-list-module"
-			v-loading="loading"
-			:element-loading-background="elementLoadingBackground"
-		>
-			<p class="all-assets">All Assets:{{ dragonList.length }}</p>
-			<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="" />
-			<ul class="dragon-table-data-list">
-				<li v-for="item in dragonList" @click="toDetails(item)" :key="item.id">
-					<!-- <dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="defaultSkills" :dragonImage="item.dragonImage"></dragonCard> -->
-					<!-- <dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="defaultSkills" :dragonImage="item.dragonImage"></dragonCard> -->
-					<dragonCard :dragonId="item.id" :dragonName="item.properties.name" :cardType="item.properties.quality" :stars="item.stars" :skills="item.skillImages" :dragonImage="item.dragonImage"></dragonCard>
-				</li>
-			</ul>
-		</div>
+		<!-- <ul class="nav">
+			<li v-for="item in navList" :key="item.name">
+				<button :class="{'theme-type': $route.name == item.name}" @click="toPath">
+					{{item.text}}
+				</button>
+			</li>
+		</ul> -->
+		<router-view></router-view>
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>
 <style lang="scss" scoped="scoped">
+@import "@/styles/theme.scss";
 .my-assets-view {
 	background-image: url('~@/assets/myAssets/bg.png');
-	background-size: 100% 100%;
+	background-size: 100%;
+	background-position: top;
+	background-color: #181727;
 	min-height: 100vh;
 	padding-bottom: 100px;
-	.view-title {
+	// .view-title {
+	// 	display: grid;
+	// 	grid-template-columns: 1fr 1fr 1fr;
+	// 	align-items: center;
+	// 	.nav {
+	// 		button {
+	// 			width: 160px;
+	// 			height: 50px;
+	// 			background-color: #363447;
+	// 			color: #FFFFFF;
+	// 			border-radius: 8px;
+	// 			margin-right: 8px;
+	// 		}
+	// 	}
+	// }
+	.title-image {
 		display: block;
 		width: fit-content;
 		margin: 8px auto;
+	}
+	.theme-type {
+		@include GradualBGColor;
 	}
 	.dragon-grid-max-col-4 {
 		display: flex;
@@ -71,31 +85,6 @@
 				padding-left: 10px;
 			}
 		}
-	}
-	.assets-list-module {
-		position: relative;
-		background-color: #292945;
-		// min-height: 100vh;
-		margin-top: 45px;
-		padding: 100px 76px;
-		.decorate-dragon {
-			position: absolute;
-			left: 0;
-			top: 0;
-			transform: translate(-150px, -100px);
-		}
-	}
-	.dragon-table-data-list {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, 150px);
-		grid-column-gap: 40px;
-		grid-row-gap: 12px;
-	}
-	.all-assets {
-		color: #ffffff;
-		font-size: 24px;
-		margin-top: -40px;
-		margin-bottom: 40px;
 	}
 }
 </style>
