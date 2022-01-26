@@ -16,19 +16,16 @@
 				<span>{{ item.type }}</span>
 			</li>
 		</ul>
-		<!-- <ul class="nav">
+		<ul class="nav">
 			<li v-for="item in navList" :key="item.name">
-				<button :class="{'theme-type': $route.name == item.name}" @click="toPath">
-					{{item.text}}
-				</button>
+				<button :class="{ 'theme-type': $route.name == item.name }" @click="toPath">{{ item.text }}</button>
 			</li>
-		</ul> -->
+		</ul>
 		<router-view></router-view>
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>
 <style lang="scss" scoped="scoped">
-@import "@/styles/theme.scss";
 .my-assets-view {
 	background-image: url('~@/assets/myAssets/bg.png');
 	background-size: 100%;
@@ -36,28 +33,25 @@
 	background-color: #181727;
 	min-height: 100vh;
 	padding-bottom: 100px;
-	// .view-title {
-	// 	display: grid;
-	// 	grid-template-columns: 1fr 1fr 1fr;
-	// 	align-items: center;
-	// 	.nav {
-	// 		button {
-	// 			width: 160px;
-	// 			height: 50px;
-	// 			background-color: #363447;
-	// 			color: #FFFFFF;
-	// 			border-radius: 8px;
-	// 			margin-right: 8px;
-	// 		}
-	// 	}
-	// }
+	.nav {
+		display: flex;
+		width: 100%;
+		li:first-child {
+			margin-left: auto;
+		}
+		button {
+			width: 160px;
+			height: 50px;
+			background-color: #363447;
+			color: #ffffff;
+			border-radius: 8px;
+			margin-left: 8px;
+		}
+	}
 	.title-image {
 		display: block;
 		width: fit-content;
 		margin: 8px auto;
-	}
-	.theme-type {
-		@include GradualBGColor;
 	}
 	.dragon-grid-max-col-4 {
 		display: flex;

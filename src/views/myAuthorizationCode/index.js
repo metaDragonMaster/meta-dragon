@@ -1,7 +1,7 @@
 import {
 	mapGetters
 } from "vuex";
-import axios from "axios"
+import axios from "axios";
 export default {
 	data: () => ({
 		uuid: '',
@@ -18,13 +18,15 @@ export default {
 	},
 	methods: {
 		init() {
-			this.findLoginAuthByAddress().then(res=>{
-				let {message} = res.data.result;
+			this.findLoginAuthByAddress().then(res => {
+				let {
+					message
+				} = res.data.result;
 				this.uuid = message;
 				console.log(res)
-			}).catch(e=>{
+			}).catch(e => {
 				console.error(e)
-				this.createUUID()
+				// this.createUUID()
 			});
 		},
 		createUUID() {
@@ -36,9 +38,8 @@ export default {
 			s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
 			s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
 			s[8] = s[13] = s[18] = s[23] = "-";
-
-			this.uuid = s.join("");
-			// return uuid;
+			let uuid = s.join("");
+			return uuid;
 		},
 		axiosPost(url, data) {
 			return axios({
@@ -48,31 +49,24 @@ export default {
 				data: data,
 			})
 		},
-		sign() {
+		async sign() {
 			if (!this.web3Provider) return;
 			let web3 = this.web3Provider;
-			// console.log(this.uuid,this.ethAddress)
-			// web3.eth.sign(this.uuid,this.ethAddress).then(res=>{
-			// 	console.log(res)
-			// });
-
-			// let message = "Somestring"
-			let message = this.uuid
-			let hash = web3.utils.sha3(message);
-			// let account = web3.eth.accounts[0]
-			let ethAddress = this.ethAddress;
+			let message = await this.createUUID();
+			let ethAddress = this.ethAddress.toLowerCase();
 			console.log("ethAddress:", ethAddress);
 			console.log("uuid:", message);
-			web3.eth.personal.sign(hash, ethAddress, async (error, signature) => {
+			web3.eth.personal.sign(web3.utils.utf8ToHex(message), ethAddress, async (error, signature) => {
 				console.log(signature, error)
 				this.createLoginAuth({
 					message: message,
 					ethAddress: ethAddress,
 					signature: signature,
 					time: ''
-				}).then(res=> {
-					this.$message.success('create success')
-				}).catch(e=>{
+				}).then(res => {
+					this.$message.success('create success');
+					this.uuid = message;
+				}).catch(e => {
 					this.$message.error('create error')
 				})
 			});
@@ -81,8 +75,9 @@ export default {
 			return this.axiosPost('/server/functions/createLoginAuth', data)
 		},
 		findLoginAuthByAddress() {
+			let ethAddress = this.ethAddress.toLowerCase();
 			return this.axiosPost('/server/functions/findLoginAuthByAddress', {
-				ethAddress: this.ethAddress,
+				ethAddress: ethAddress,
 			})
 		},
 		mycopy(text) {
@@ -93,7 +88,7 @@ export default {
 			textareaEl.select();
 			let success = document.execCommand('copy');
 			document.body.removeChild(textareaEl);
-			if(success) {
+			if (success) {
 				this.$message.success('copy success');
 			}
 			return success;

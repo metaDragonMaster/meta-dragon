@@ -21,7 +21,6 @@
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>
 <style lang="scss" scoped="scoped">
-@import '@/styles/theme.scss';
 .my-authorization-code-view {
 	background-image: url('~@/assets/myAssets/bg.png');
 	background-size: 100%;
@@ -41,9 +40,6 @@
 	}
 	.title-image {
 		width: 80%;
-	}
-	.theme-type {
-		@include GradualBGColor;
 	}
 	.border-button {
 		border-radius: 12px;

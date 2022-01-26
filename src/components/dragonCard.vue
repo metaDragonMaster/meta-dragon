@@ -1,11 +1,11 @@
 <template>
-	<div class="dragon-card" :class="[
-		types[cardType],cardType
-	]"
-		
-	>
-		<p class="RGB-text left">#{{dragonId}}</p>
-		<p class="left">{{dragonName}}</p>
+	<div class="dragon-card" :class="[types[cardType]]">
+		<div class="check-box" v-show="typeCheck">
+			<!--  @click.stop="changeChecked"   -->
+			<img class="checked-image" src="@/assets/dragonCard/checked.png" alt="err" v-show="isChecked">
+		</div>
+		<p class="RGB-text left">#{{ dragonId }}</p>
+		<p class="left">{{ dragonName }}</p>
 		<!-- <img class="dragon-image" src="@/assets/myAssets/dragon.png" alt="" /> -->
 		<img class="dragon-image" :src="dragonImage" alt="" />
 		<Rate :stars="stars"></Rate>
@@ -48,29 +48,38 @@ export default {
 				2: 'cli-2',
 				3: 'cli-3',
 				4: 'cli-4'
-			}
+			},
+			// isChecked:false,
 		};
 	},
 	components: {
-		"Rate":rate
+		Rate: rate
 	},
 	props: {
 		// dragonImage: {
-		// 	default: 
+		// 	default:
 		// },
-		dragonImage:{
-			default:require('@/assets/myAssets/dragon.png')
+		typeCheck: {
+			type: Boolean,
+			default: false,
 		},
-		dragonId:{
-			type:[String,Number],
-			default:''
+		isChecked:{
+			type: Boolean,
+			default: false,
 		},
-		dragonName:{
-			type:String,
-			default:''
+		dragonImage: {
+			default: require('@/assets/myAssets/dragon.png')
+		},
+		dragonId: {
+			type: [String, Number],
+			default: ''
+		},
+		dragonName: {
+			type: String,
+			default: ''
 		},
 		cardType: {
-			type: [Number,String],
+			type: [Number, String]
 			// default: 1,
 			// validator(cardTypeValue) {
 			// 	// const types = {
@@ -105,7 +114,14 @@ export default {
 	// mounted() {
 	// 	console.log(this.cardType)
 	// },
-	methods: {}
+	methods: {
+		// changeChecked() {
+		// 	this.isChecked = !this.isChecked;
+		// },
+		getDragonId() {
+			
+		}
+	}
 };
 </script>
 <style lang="scss" scoped="scoped">
@@ -118,13 +134,37 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	padding: 16px 6px;
+	position: relative;
+	.check-box {
+		$boxSize: 36px;
+		position: absolute;
+		top: - 17px;
+		right: - 17px;
+		background-image: url(~@/assets/dragonCard/checked-box.png);
+		background-position: center;
+		display: grid;
+		place-items: center;
+		width: $boxSize;
+		height: $boxSize;
+		.checked-image {
+			max-width: 100%;
+		}
+		@media screen and (max-width: 750px) {
+			$boxSize: 24px;
+			width: $boxSize;
+			height: $boxSize;
+			background-size: 100%;
+			top: - 12px;
+			right: - 12px;
+		}
+	}
 	.left {
 		margin-right: auto;
 		font-size: 12px;
 		margin-left: 8px;
-		color: #FFFFFF;
+		color: #ffffff;
 	}
-	img {
+	& > img {
 		width: 75px;
 		height: 80px;
 	}
@@ -157,7 +197,7 @@ export default {
 		justify-content: space-between;
 		width: 100%;
 		li {
-			background-image: url("~@/assets/myAssets/skill-bg.png");
+			background-image: url('~@/assets/myAssets/skill-bg.png');
 			background-size: 100%;
 			padding: 4px;
 			img {

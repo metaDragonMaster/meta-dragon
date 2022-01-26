@@ -15,10 +15,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped="scoped">
-@import '@/styles/theme.scss';
-.theme-type {
-	@include GradualBGColor;
-}
 .submit-button {
 	color: #FFFFFF;
 	width: 300px;

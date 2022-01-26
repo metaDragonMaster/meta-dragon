@@ -1,3 +1,4 @@
+@import './theme.scss';
 .banner {
 	background-position: center;
 	background-repeat: no-repeat;
@@ -13,7 +14,27 @@ div[limit-max-width]{
 	@include mixin-limit-max-width;
 }
 
-// .sticky {
-// 	position: sticky;
-// 	top: var(--data-top,100px);
-// }
+.theme-type {
+	@include GradualBGColor;
+	color: #FFF;
+}
+
+.theme-border-button {
+	display: grid;
+	place-items: center;
+	position: relative;
+	z-index: 1;
+	border-radius: 12px;
+	color: #FFFFFF;
+	@include GradualBGColor;
+	&::after {
+		content: '';
+		display: block;
+		z-index: -1;
+		width: calc(100% - 4px);
+		height: calc(100% - 4px);
+		background-color: #292945;
+		position: absolute;
+		border-radius: 12px;
+	}
+}

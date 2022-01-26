@@ -274,7 +274,7 @@ export default {
 			let b = web3.utils.fromWei(balanceUsdt);
 						
 			if (parseInt(a) > parseInt(b)) {
-				that.$message.error('usdt not enough');
+				that.$message.error('LB not enough');
 				that.currentStatic = 2;
 				that.loading = false;
 			} else {

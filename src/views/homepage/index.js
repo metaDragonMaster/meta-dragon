@@ -10,7 +10,8 @@ import Decimal from "decimal.js";
 import {
 	NftAddress,
 	UsdtAddress,
-	lbAddress
+	lbAddress,
+	lcAddress
 } from "@/jsons/contractAddress.js"
 export default {
 	name: 'homepage',
@@ -22,15 +23,15 @@ export default {
 		links:[
 			{
 				contract: 'LB',
-				link: '0x7948d6bc05da31b4a0e0ac1060d4c3bd26ced322'
+				link: lbAddress
 			},
-			// {
-			// 	contract: 'LC',
-			// 	link: '0x75325deec14DA345a440C0212f263Fc72BcfE45F'
-			// },
+			{
+				contract: 'LC',
+				link: lcAddress
+			},
 			{
 				contract: 'NFT',
-				link: '0x68102434902f1d995C7397f7DaC64cCfFfB0B328'
+				link: NftAddress
 			},
 		],
 		dialogHandleValue:false,

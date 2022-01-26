@@ -21,10 +21,10 @@
 				<i class="el-icon-loading" v-show="loading"></i>
 				10 sommon   {{usdtValue*10}}LB
 			</button>
-			<!-- <button  class="send-button" @click="ethLbSend(50)" :disabled="loading">
+			<button  class="send-button" @click="ethLbSend(50)" :disabled="loading">
 				<i class="el-icon-loading" v-show="loading"></i>
 				50 sommon {{usdtValue*50}}LB
-			</button> -->
+			</button>
 		</div>
 	</div>
 </template>

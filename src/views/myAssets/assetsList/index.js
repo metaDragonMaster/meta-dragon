@@ -16,11 +16,26 @@ import {
 	mapGetters
 } from "vuex";
 import axios from "axios";
+import ThemeSelect from "@/components/ThemeSelect.vue";
 export default {
 	data: () => ({
+		batchDialog:false,
 		elementLoadingBackground:'rgba(0, 0, 0, 0.8)',
 		loading:false,
+		typeCheck:false,//是否进行选择
+		checkedList:[],//被选择后的龙
 		dragonList: [],
+		selectTypeValue:"Dragon",
+		selectList:[
+			{
+				value:'Dragon',
+				title:'Dragon'
+			},
+			{
+				value:'Egg',
+				title:'Egg'
+			}
+		],
 		dragonImages: [{
 				id: '10002',
 				dragonImage: require('@/assets/dragon/Dragon_ziran_006.png'),
@@ -255,6 +270,7 @@ export default {
 	}),
 	components: {
 		dragonCard,
+		ThemeSelect,
 	},
 	computed: {
 		...mapGetters({
@@ -264,11 +280,41 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(()=>{
-			this.getUsdtValue()
+			this.getDragonList();
 		})
 	},
 	methods: {
-		async getUsdtValue() {
+		closeBatchDialog() {
+			this.sendDefine();
+			this.removeChecked();
+		},
+		sendDefine() {
+			this.batchDialog = false;
+		},
+		defineChecked() {
+			this.batchDialog = true;
+		},
+		changeCardCheck() {
+			this.typeCheck = !this.typeCheck;
+		},
+		cardClick(item) {
+			if(this.typeCheck) {
+				item.isChecked = !item.isChecked;
+			} else {
+				this.toDetails(item)
+			}
+		},
+		toDetails(item) {
+			// this.$routerUtil.toPath('/myAssets/details', item)
+			this.$routerUtil.toName('myAssetsDetails', item);
+			console.log('to details')
+		},
+		removeChecked() {
+			this.dragonList.map(item=>item.isChecked = false);
+			// this.changeCardCheck()
+			this.typeCheck = false;
+		},
+		async getDragonList() {
 			if (!this.web3Provider) return;
 			let web3 = this.web3Provider;
 			this.loading = true;
@@ -289,7 +335,7 @@ export default {
 				skillIds.map(skillId => {
 					this.skillsList.map(item => {
 						if (item.id == skillId) {
-							skillImages.push(item.skillImageS)
+							skillImages.push(item.skillImageS);
 						}
 					})
 				})
@@ -297,9 +343,11 @@ export default {
 					id: item,
 					dragonImage: dragonImage,
 					skillImages: skillImages,
+					isChecked:false,
 					...dragonInfo.data
 				});
 			})
+			// this.createCheckedList(NFTGetTokenIds);
 			// console.log(this.dragonList)
 			this.loading = false;
 		},
