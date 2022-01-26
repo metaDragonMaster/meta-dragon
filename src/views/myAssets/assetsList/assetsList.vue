@@ -1,18 +1,16 @@
 <template>
 	<div class="assets-list-module" v-loading="loading" :element-loading-background="elementLoadingBackground">
-		<p class="all-assets">All Assets:{{ dragonList.length }}</p>
+		<p class="all-assets">All Assets:{{ AllAssets }}</p>
 		<div class="head-grid">
-			<ThemeSelect :value="selectTypeValue" :list="selectList" @emitValue="val=> selectTypeValue = val"></ThemeSelect>
-			<button class="theme-border-button batch-transfer-button"
-				@click="changeCardCheck"
-			>Batch transfer</button>
+			<ThemeSelect :value="selectTypeValue" :list="selectList" @emitValue="emitValue" v-loading="pushEnd"></ThemeSelect>
+			<button class="theme-border-button batch-transfer-button" @click="changeCardCheck">Batch transfer</button>
 			<div class="batch-buttons handle-buttons" v-show="typeCheck">
-				<button @click="removeChecked" >CANCEL</button>
+				<button @click="removeChecked">CANCEL</button>
 				<button class="theme-type" @click="defineChecked">DEFINE</button>
 			</div>
 		</div>
 		<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="" />
-		<ul class="dragon-table-data-list">
+		<ul class="dragon-table-data-list" v-if="dragonList.length > 0 && selectTypeValue == 'Dragon'">
 			<li v-for="item in dragonList" :key="item.id" @click="cardClick(item)">
 				<dragonCard
 					:dragonId="item.id"
@@ -23,16 +21,22 @@
 					:dragonImage="item.dragonImage"
 					:typeCheck="typeCheck"
 					:isChecked="item.isChecked"
+					:dragonHatch="item.dragonHatch"
 				></dragonCard>
+			</li>
+		</ul>
+		<ul class="dragon-table-data-list" v-if="dragonEggList.length > 0 && selectTypeValue == 'Egg'">
+			<li v-for="item in dragonEggList" :key="item.id" >
+				<eggCard :id="item.id"></eggCard>
 			</li>
 		</ul>
 		<el-dialog :visible.sync="batchDialog" width="700px" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
 			<div class="dragon-dialog-body">
-				<img src="@/assets/text-shadow/batch-transfer.png" alt="">
+				<img src="@/assets/text-shadow/batch-transfer.png" alt="" />
 				<button class="theme-border-button">Wallet address</button>
 				<p>Please enter wallet address</p>
 				<div class="batch-buttons">
-					<button @click="closeBatchDialog" >CANCEL</button>
+					<button @click="closeBatchDialog">CANCEL</button>
 					<button class="theme-type" @click="sendDefine">DEFINE</button>
 				</div>
 			</div>
@@ -77,8 +81,8 @@
 			font-size: 16px;
 			border-radius: 12px;
 			left: 24px;
-			background-color: #3F3F58;
-			color: #FFF;
+			background-color: #3f3f58;
+			color: #fff;
 			&:not(:first-child) {
 				margin-left: 32px;
 			}
@@ -114,8 +118,8 @@
 		margin-top: 100px;
 		margin-bottom: 32px;
 	}
-	p{
-		color: #0395F3;
+	p {
+		color: #0395f3;
 	}
 	.batch-buttons {
 		padding-top: 100px;

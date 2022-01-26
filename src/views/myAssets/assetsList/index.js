@@ -11,17 +11,20 @@
 // import {
 // 	NftAddress,
 // } from "@/jsons/contractAddress.js";
-// import {
-// 	mapGetters
-// } from "vuex";
+import {
+	mapActions
+} from "vuex";
 // import axios from "axios";
 
 import ThemeSelect from "@/components/ThemeSelect.vue";
 import dragonCard from "@/components/dragonCard.vue";
+import eggCard from "@/components/eggCard.vue"
 
-import skillImages from "@/jsons/skill_Images.js"
-import dragonImages from "@/jsons/dragon_Images.js"
-import getDragonListMixin from "@/jsons/getDragonListMixin.js"
+import skillImages from "@/jsons/skill_Images.js";
+import dragonImages from "@/jsons/dragon_Images.js";
+import getDragonListMixin from "@/jsons/getDragonListMixin.js";
+import moment from 'moment';
+
 export default {
 	mixins:[getDragonListMixin],
 	data: () => ({
@@ -29,9 +32,8 @@ export default {
 		elementLoadingBackground:'rgba(0, 0, 0, 0.8)',
 		loading:false,
 		typeCheck:false,//是否进行选择
-		checkedList:[],//被选择后的龙
-		dragonList: [],
 		selectTypeValue:"Dragon",
+		// selectTypeValue:"Egg",
 		selectList:[
 			{
 				value:'Dragon',
@@ -42,25 +44,54 @@ export default {
 				title:'Egg'
 			}
 		],
+		timer:null,
+		
 		// dragonImages: dragonImages,
 		// skillsList: skillImages,
 	}),
 	components: {
 		dragonCard,
 		ThemeSelect,
+		eggCard
 	},
-	// computed: {
-	// 	...mapGetters({
-	// 		web3Provider: 'web3Provider',
-	// 		ethAddress: 'ethAddress'
-	// 	}),
-	// },
+	computed: {
+		// ...mapGetters({
+		// 	web3Provider: 'web3Provider',
+		// 	ethAddress: 'ethAddress'
+		// }),
+		AllAssets() {
+			let assetsNum = '';
+			if(this.selectTypeValue == "Egg") assetsNum = this.dragonEggList.length;
+			if(this.selectTypeValue == "Dragon") assetsNum = this.dragonList.length;
+			// console.log(assetsNum);
+			return assetsNum;
+		}
+	},
+	beforeDestroy() {
+		clearInterval(this.timer)
+	},
 	mounted() {
 		this.$nextTick(()=>{
 			this.getDragonList();
+			this.setTimer()
 		})
 	},
 	methods: {
+		...mapActions({
+			setTimestamp:'setTimestamp'
+		}),
+		setTimer() {
+			this.timer = setInterval(() => {
+				let timeNow = moment(new Date()).unix();
+				this.setTimestamp(timeNow);
+			}, 1000)
+		},
+		
+		emitValue(val) {
+			this.selectTypeValue = val;
+			// this.dragonList = []
+			// this.getDragonList()
+		},
 		closeBatchDialog() {
 			this.sendDefine();
 			this.removeChecked();
@@ -94,7 +125,11 @@ export default {
 		async getDragonList() {
 			if (!this.web3Provider) return;
 			this.loading = true;
-			await this.$M_getDragons();
+			let isEgg = this.selectTypeValue == 'Egg'
+			await this.$M_getDragons(isEgg);
+			this.loading = false;
+			
+			
 			// let web3 = this.web3Provider;
 			// let address = this.ethAddress;
 			// let NftContract = new web3.eth.Contract(Abi721Nft, NftAddress);
@@ -127,7 +162,6 @@ export default {
 			// })
 			// this.createCheckedList(NFTGetTokenIds);
 			// console.log(this.dragonList)
-			this.loading = false;
 		},
 	}
 }

@@ -2,7 +2,7 @@
 	<div class="my-assets-view">
 		<img class="title-image" src="@/assets/text-shadow/my-assets.png" alt="" />
 		<ul class="dragon-grid-max-col-4">
-			<li
+			<!-- <li
 				v-for="(item, index) in dragonGridList"
 				v-loading="loading"
 				:element-loading-background="elementLoadingBackground"
@@ -14,6 +14,42 @@
 				<img :src="item.iconImage" alt="" />
 				<p>{{ item.num }}</p>
 				<span>{{ item.type }}</span>
+			</li> -->
+			<li v-loading="loading"
+				:element-loading-background="elementLoadingBackground"
+				:style="{
+					'background-image': `url(${require('@/assets/myAssets/col-1.png')})`
+				}">
+				<img :src="require('@/assets/myAssets/col-1-icon.png')" alt="" />
+				<p>{{ userAssets.Lb }}</p>
+				<span>Lb</span>
+			</li>
+			<li v-loading="loading"
+				:element-loading-background="elementLoadingBackground"
+				:style="{
+					'background-image': `url(${require('@/assets/myAssets/col-2.png')})`
+				}">
+				<img :src="require('@/assets/myAssets/col-2-icon.png')" alt="" />
+				<p>{{ userAssets.Lc }}</p>
+				<span>Lc</span>
+			</li>
+			<li v-loading="loading"
+				:element-loading-background="elementLoadingBackground"
+				:style="{
+					'background-image': `url(${require('@/assets/myAssets/col-3.png')})`
+				}">
+				<img :src="require('@/assets/myAssets/col-3-icon.png')" alt="" />
+				<p>{{ userAssets.NFT }}</p>
+				<span>NFT</span>
+			</li>
+			<li v-loading="loading"
+				:element-loading-background="elementLoadingBackground"
+				:style="{
+					'background-image': `url(${require('@/assets/myAssets/col-4.png')})`
+				}">
+				<img :src="require('@/assets/myAssets/col-4-icon.png')" alt="" />
+				<p>{{ userAssets.EGG }}</p>
+				<span>EGG</span>
 			</li>
 		</ul>
 		<ul class="nav">

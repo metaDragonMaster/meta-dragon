@@ -1,10 +1,9 @@
 <template>
 	<div class="assets-list-module" v-loading="loading" :element-loading-background="elementLoadingBackground">
-		<p class="all-assets">All Assets:{{ dragonList.length }}</p>
+		<p class="all-assets">All Assets:{{ AllAssets }}</p>
 		<div class="flex">
-			<button class="theme-border-button batch-transfer-button" @click="changeCardCheck">Batch transfer</button>
-			<ThemeSelect :value="selectTypeValue" :list="selectList" @emitValue="val=> selectTypeValue = val"></ThemeSelect>
-			
+			<button class="theme-border-button batch-transfer-button" @click="changeCardCheck" >Batch transfer</button>
+			<ThemeSelect :value="selectTypeValue" :list="selectList" @emitValue="emitValue"  v-loading="pushEnd"></ThemeSelect>
 		</div>
 		<div class="fixed-bottom-grid" v-show="typeCheck">
 			<div class="batch-buttons">
@@ -12,8 +11,8 @@
 				<button class="theme-type" @click="defineChecked">DEFINE</button>
 			</div>
 		</div>
-		<ul class="dragon-table-data-list">
-			<li v-for="item in dragonList" @click="toDetails(item)" :key="item.id">
+		<ul class="dragon-table-data-list" v-if="dragonList.length > 0 && selectTypeValue == 'Dragon'">
+			<li v-for="item in dragonList" :key="item.id" @click="cardClick(item)">
 				<dragonCard
 					:dragonId="item.id"
 					:dragonName="item.properties.name"
@@ -23,7 +22,13 @@
 					:dragonImage="item.dragonImage"
 					:typeCheck="typeCheck"
 					:isChecked="item.isChecked"
+					:dragonHatch="item.dragonHatch"
 				></dragonCard>
+			</li>
+		</ul>
+		<ul class="dragon-table-data-list" v-if="dragonEggList.length > 0 && selectTypeValue == 'Egg'">
+			<li v-for="item in dragonEggList" :key="item.id" >
+				<eggCard :id="item.id"></eggCard>
 			</li>
 		</ul>
 		<el-dialog :visible.sync="batchDialog" width="90%" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">

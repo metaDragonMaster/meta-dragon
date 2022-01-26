@@ -11,6 +11,11 @@ export default new Vuex.Store({
 		ethAddress:'',
 		web3Provider:null,
 		haveAuth:false,
+		Lb:'0',
+		Lc:'0',
+		NFT:0,
+		EGG:0,
+		timestamp:0,
 	},
 	mutations: {
 		SET_THEME:(state,theme)=>{
@@ -30,6 +35,19 @@ export default new Vuex.Store({
 		},
 		SET_HAVE_AUTH:(state,haveAuth)=>{
 			state.haveAuth = haveAuth
+		},
+		SET_NFT_EGG_NUM:(state,prop)=>{
+			state.NFT = prop.NFT
+			state.EGG = prop.EGG
+		},
+		SET_LB:(state,Lb)=>{
+			state.Lb = Lb
+		},
+		SET_LC:(state,LC)=>{
+			state.Lc = LC
+		},
+		SET_TIME_STAMP:(state,timestamp)=>{
+			state.timestamp = timestamp
 		},
 	},
 	actions: {
@@ -51,6 +69,30 @@ export default new Vuex.Store({
 		setHaveAuth({commit},params) {
 			commit('SET_HAVE_AUTH', params);
 		},
+		setLb({commit},params) {
+			commit('SET_LB', params);
+		},
+		setLc({commit},params) {
+			commit('SET_LC', params);
+		},
+		setNftEggNum({commit},Ids) {
+			let egg=0;
+			let nft=0;
+			Ids.map(item=>{
+				if(item.length < '2000000000000000000000000000'.length) {
+					nft += 1;
+				} else {
+					egg += 1;
+				}
+			})
+			commit('SET_NFT_EGG_NUM', {
+				"EGG":egg,
+				"NFT":nft
+			});
+		},
+		setTimestamp({commit},timestamp) {
+			commit('SET_TIME_STAMP', timestamp);
+		},
 	},
 	getters:{
 		theme:state=>state.theme,
@@ -59,5 +101,12 @@ export default new Vuex.Store({
 		ethAddress:state=>state.ethAddress,
 		web3Provider:state=>state.web3Provider,
 		haveAuth:state=>state.haveAuth,
+		userAssets:state=>({
+			"EGG":state.EGG,
+			"NFT":state.NFT,
+			"Lc":state.Lc,
+			"Lb":state.Lb,
+		}),
+		dateTimestamp:state=>state.timestamp,
 	},
 })

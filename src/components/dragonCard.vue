@@ -1,11 +1,14 @@
 <template>
-	<div>
+	<div  @click="choice()">
 		<div class="dragon-card" :class="[types[cardType]]" v-if="dragonId">
 			<div class="check-box" v-show="typeCheck">
 				<!--  @click.stop="changeChecked"   -->
 				<img class="checked-image" src="@/assets/dragonCard/checked.png" alt="err" v-show="isChecked">
 			</div>
-			<p class="RGB-text left">#{{ dragonId }}</p>
+			<p class="RGB-text left ">
+				<span>#{{ dragonId }}</span>
+				<span class="hatch">MBC:{{dragonHatch}}</span>
+			</p>
 			<p class="left">{{ dragonName }}</p>
 			<!-- <img class="dragon-image" src="@/assets/myAssets/dragon.png" alt="" /> -->
 			<img class="dragon-image" :src="dragonImage" alt="" />
@@ -15,7 +18,7 @@
 			</ul>
 			<slot></slot>
 		</div>
-		<img v-else class="choice-image" src="@/assets/dragonCard/choice-bg.png" alt="" @click="choice()">
+		<img v-else class="choice-image" src="@/assets/dragonCard/choice-bg.png" alt="">
 	</div>
 </template>
 <script>
@@ -74,7 +77,7 @@ export default {
 			default: require('@/assets/myAssets/dragon.png')
 		},
 		dragonId: {
-			type: [String, Number],
+			type: String,
 			default: ''
 		},
 		dragonName: {
@@ -89,12 +92,16 @@ export default {
 			default: () => [],
 			validator(skills) {
 				let lengthNum = skills.length;
-				return lengthNum === 4;
+				return lengthNum === 4||lengthNum === 0;
 			}
 		},
 		stars: {
 			type: Number,
 			default: 0
+		},
+		dragonHatch:{
+			type:[String,Number],
+			default:'0'
 		}
 	},
 	// mounted() {
@@ -153,6 +160,11 @@ export default {
 		font-size: 12px;
 		margin-left: 8px;
 		color: #ffffff;
+	}
+	.RGB-text.left {
+		display: flex;
+		justify-content: space-between;
+		width: 90%;
 	}
 	& > img {
 		width: 75px;

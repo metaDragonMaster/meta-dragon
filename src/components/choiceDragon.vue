@@ -2,7 +2,7 @@
 	<el-dialog class="dialog-dom" :visible.sync="dialogHandleValue" center width="90%"  :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
 		<img class="title-image" src="@/assets/text-shadow/choose-hatch-nft-parents.png" alt="">
 		<ul class="dragon-table-data-list" v-loading="loading">
-			<li v-for="item in dragonList" :key="item.id">
+			<li v-for="item in dragonList" :key="item.id" @click="say(item)">
 				<dragonCard
 					:dragonId="item.id"
 					:dragonName="item.properties.name"
@@ -10,11 +10,12 @@
 					:stars="item.stars"
 					:skills="item.skillImages"
 					:dragonImage="item.dragonImage"
+					:dragonHatch="item.dragonHatch"
 				>
 					<button class="choice-button" :class="{
 						'is-check-bottom-bg':item.isChecked
 					}" @click="choiceDragon(item)">
-						{{item.isChecked ? 'Choice' : 'Selected'}}
+						{{item.isChecked ? 'Selected':'Choice'}}
 					</button>
 				</dragonCard>
 			</li>
@@ -24,6 +25,11 @@
 <script>
 import dragonCard from './dragonCard.vue';
 import getDragonListMixin from '@/jsons/getDragonListMixin.js';
+import Abi721Nft from "@/jsons/abi-721-NFT.js";
+import {
+	NftAddress,
+	lcAddress,
+} from "@/jsons/contractAddress.js";
 export default {
 	mixins: [getDragonListMixin],
 	data: () => ({
@@ -42,29 +48,54 @@ export default {
 		this.getDragonList();
 	},
 	methods: {
+		resetDragonChecked() {
+			this.dragonList.map(item=>{
+				item.isChecked = false;
+			})
+		},
 		async getDragonList() {
 			if (!this.web3Provider) return;
 			this.loading = true;
 			console.log("item,index")
 			await this.$M_getDragons();
-			let _index = 0;
-			await this.dragonList.map((item,index)=>{
-				if(index == 0) {
-					item.isChecked = true
-				} else {
-					item.isChecked = false;
-				}
-			})
+			for(let i in this.dragonList) {
+				let item = this.dragonList[i];
+				item.isChecked = false;
+				console.log(item)
+			}
 			this.loading = false;
 		},
 		choiceDragon(item) {
+			if(item.isChecked)  {
+				this.close();
+				return;
+			}
 			item.isChecked = true;
-			this.$emit('choiceDragon',item);
+			this.$emit('checked',item);
 			this.close();
 		},
 		close() {
 			// this.dialogHandleValue = false;
 			this.$emit('update:dialogHandleValue', false);
+		},
+		cancelCheck(id) {
+			this.dragonList.map(item=>{
+				if(item.id == id) {
+					item.isChecked = false;
+				}
+			})
+		},
+		async getNFTincubation(id) {
+			// if (!this.web3Provider) return;
+			// let web3 = this.web3Provider;
+			// let contract721 = new web3.eth.Contract(Abi721Nft, NftAddress);
+			// let MBC = await contract721.methods.getNFTincubation(id).call();
+			// console.log(MBC)
+			let MBC = 1;
+			return MBC;
+		},
+		say(item) {
+			console.log(item)
 		}
 	}
 };
@@ -90,7 +121,7 @@ export default {
 .choice-button {
 	width: 70px;
 	height: 24px;
-	background-image: url(~@/assets/dragonCard/button-selected-bg.png);
+	background-image: url(~@/assets/dragonCard/button-choice-bg.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	background-position: center;
@@ -98,7 +129,7 @@ export default {
 	margin-top: 12px;
 }
 .is-check-bottom-bg {
-	background-image: url(~@/assets/dragonCard/button-choice-bg.png);
+	background-image: url(~@/assets/dragonCard/button-selected-bg.png);
 }
 @media screen and (max-width: 750px) {
 	.title-image {

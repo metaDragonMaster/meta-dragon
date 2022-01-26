@@ -2,43 +2,41 @@
 	<div class="hatch-egg-view">
 		<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="" />
 		<ul class="dragon-hatch-choice">
-			<li class="">
+			<li>
 				<dragonCard
-					dragonId="123"
-					dragonName="dragon name"
-					:cardType="1"
-					:stars="0"
-					:skills="dragonInfo.skills"
-					:dragonImage="dragonInfo.image"
-					@choice="openChoiceDragon"
+					:dragonId="dragonInfoLeft.id"
+					:dragonName="dragonInfoLeft.name"
+					:cardType="dragonInfoLeft.properties ? dragonInfoLeft.properties.quality : ''"
+					:stars="dragonInfoLeft.stars"
+					:skills="dragonInfoLeft.skillImages ? dragonInfoLeft.skillImages : []"
+					:dragonImage="dragonInfoLeft.dragonImage"
+					:dragonHatch="hatchLeftNum"
+					@choice="openChoiceDragon('dragonInfoLeft',dragonInfoLeft.id)"
 				></dragonCard>
-				<p class="shadow-text">
-					MBC: 0/7
-				</p>
+				<p class="shadow-text">MBC: {{hatchLeftNum}}/7</p>
 			</li>
 			<li>
 				<dragonCard
-					dragonId=""
-					dragonName="dragon name"
-					:cardType="1"
-					:stars="0"
-					:skills="dragonInfo.skills"
-					:dragonImage="dragonInfo.image"
-					@choice="openChoiceDragon"
+					:dragonId="dragonInfoRight.id"
+					:dragonName="dragonInfoRight.name"
+					:cardType="dragonInfoRight.properties ? dragonInfoRight.properties.quality : ''"
+					:stars="dragonInfoRight.stars"
+					:skills="dragonInfoRight.skillImages ? dragonInfoRight.skillImages : []"
+					:dragonImage="dragonInfoRight.dragonImage"
+					:dragonHatch="hatchRightNum"
+					@choice="openChoiceDragon('dragonInfoRight',dragonInfoRight.id)"
 				></dragonCard>
-				<p class="shadow-text">
-					MBC: 0/7
-				</p>
+				<p class="shadow-text">MBC: {{hatchRightNum}}/7</p>
 			</li>
 		</ul>
 		<div>
 			<p class="hatch-match shadow-text">
-				<img src='@/assets/myAssets/col-1-icon.png' alt="">
-				99999999999999
+				<img src="@/assets/myAssets/col-2-icon.png" alt="" />
+				{{hatchPrice}}
 			</p>
-			<button class="theme-type submit-button">Hatch</button>
+			<button class="theme-type submit-button" @click="handleHatch" v-loading="loading" :elementLoadingBackground="elementLoadingBackground">Hatch</button>
 		</div>
-		<choiceDragon :dialogHandleValue.sync="dialogHandleValue"></choiceDragon>
+		<choiceDragon :dialogHandleValue.sync="dialogHandleValue" @checked="checkedDragon" ref="choiceDragon"></choiceDragon>
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>
@@ -50,7 +48,7 @@
 	// min-height: 100vh;
 	margin-top: 45px;
 	padding: 100px 76px;
-	color: #FFFFFF;
+	color: #ffffff;
 	.decorate-dragon {
 		position: absolute;
 		left: 0;
@@ -61,7 +59,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		&> li:not(:last-child) {
+		& > li:not(:last-child) {
 			margin-right: 250px;
 		}
 		li {
@@ -84,11 +82,11 @@
 			max-width: 100px;
 		}
 	}
-	.shadow-text{
+	.shadow-text {
 		text-shadow: 0 0 10px #2a81ea;
 	}
 	.submit-button {
-		color: #FFFFFF;
+		color: #ffffff;
 		width: 300px;
 		height: 64px;
 		border-radius: 12px;
