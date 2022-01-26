@@ -81,7 +81,7 @@ export default {
 		},
 		toPath(item) {
 			if (item.path) {
-				this.$routerUtil.toPath(item.path)
+				this.$routerUtil.toPath(item.path);
 			}
 		},
 		async getUsdtValue() {

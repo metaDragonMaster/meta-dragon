@@ -18,7 +18,7 @@
 		</ul>
 		<ul class="nav">
 			<li v-for="item in navList" :key="item.name">
-				<button :class="{ 'theme-type': $route.name == item.name }" @click="toPath">{{ item.text }}</button>
+				<button :class="{ 'theme-type': $route.name == item.name }" @click="toPath(item)">{{ item.text }}</button>
 			</li>
 		</ul>
 		<router-view></router-view>

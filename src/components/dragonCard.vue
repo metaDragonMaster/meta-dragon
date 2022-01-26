@@ -1,18 +1,21 @@
 <template>
-	<div class="dragon-card" :class="[types[cardType]]">
-		<div class="check-box" v-show="typeCheck">
-			<!--  @click.stop="changeChecked"   -->
-			<img class="checked-image" src="@/assets/dragonCard/checked.png" alt="err" v-show="isChecked">
+	<div>
+		<div class="dragon-card" :class="[types[cardType]]" v-if="dragonId">
+			<div class="check-box" v-show="typeCheck">
+				<!--  @click.stop="changeChecked"   -->
+				<img class="checked-image" src="@/assets/dragonCard/checked.png" alt="err" v-show="isChecked">
+			</div>
+			<p class="RGB-text left">#{{ dragonId }}</p>
+			<p class="left">{{ dragonName }}</p>
+			<!-- <img class="dragon-image" src="@/assets/myAssets/dragon.png" alt="" /> -->
+			<img class="dragon-image" :src="dragonImage" alt="" />
+			<Rate :stars="stars"></Rate>
+			<ul class="skill-list">
+				<li v-for="item in skills"><img :src="item" alt="image error" /></li>
+			</ul>
+			<slot></slot>
 		</div>
-		<p class="RGB-text left">#{{ dragonId }}</p>
-		<p class="left">{{ dragonName }}</p>
-		<!-- <img class="dragon-image" src="@/assets/myAssets/dragon.png" alt="" /> -->
-		<img class="dragon-image" :src="dragonImage" alt="" />
-		<Rate :stars="stars"></Rate>
-		<ul class="skill-list">
-			<li v-for="item in skills"><img :src="item" alt="image error" /></li>
-		</ul>
-		<slot></slot>
+		<img v-else class="choice-image" src="@/assets/dragonCard/choice-bg.png" alt="" @click="choice()">
 	</div>
 </template>
 <script>
@@ -80,23 +83,6 @@ export default {
 		},
 		cardType: {
 			type: [Number, String]
-			// default: 1,
-			// validator(cardTypeValue) {
-			// 	// const types = {
-			// 	// 	blue: 'cli-1',
-			// 	// 	purple: 'cli-2',
-			// 	// 	yellow: 'cli-3',
-			// 	// 	red: 'cli-4'
-			// 	// };
-			// 	const types = {
-			// 		1: 'cli-1',
-			// 		2: 'cli-2',
-			// 		3: 'cli-3',
-			// 		4: 'cli-4'
-			// 	};
-			// 	let keys = Object.keys(types);
-			// 	return keys.includes(cardTypeValue);
-			// }
 		},
 		skills: {
 			type: Array,
@@ -118,13 +104,17 @@ export default {
 		// changeChecked() {
 		// 	this.isChecked = !this.isChecked;
 		// },
-		getDragonId() {
-			
+		choice() {
+			this.$emit('choice')
 		}
 	}
 };
 </script>
 <style lang="scss" scoped="scoped">
+.choice-image {
+	width: 140px;
+	height: 140px;
+}
 .dragon-card {
 	background-repeat: no-repeat;
 	background-position: top left;

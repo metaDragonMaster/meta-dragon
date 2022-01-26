@@ -45,15 +45,15 @@ const routes = [{
 					component: () => isPc ? import('@/views/myAssets/assetsList/assetsList.vue') : import(
 						'@/views/myAssets/assetsList/assetsList.ph.vue'),
 				},
-				// {
-				// 	path: 'hatchEgg',
-				// 	name: 'hatchEgg',
-				// 	meta: {
-				// 		title: 'hatch-egg'
-				// 	},
-				// 	component: () => isPc ? import('@/views/myAssets/hatchEgg/hatchEgg.vue') : import(
-				// 		'@/views/myAssets/hatchEgg/hatchEgg.ph.vue'),
-				// },
+				{
+					path: 'hatchEgg',
+					name: 'hatchEgg',
+					meta: {
+						title: 'hatch-egg'
+					},
+					component: () => isPc ? import('@/views/myAssets/hatchEgg/hatchEgg.vue') : import(
+						'@/views/myAssets/hatchEgg/hatchEgg.ph.vue'),
+				},
 			]
 		},
 		{

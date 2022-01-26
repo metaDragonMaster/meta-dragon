@@ -83,21 +83,21 @@ export default {
 					web3Provider.enable();
 					console.log("web3Provider---",web3Provider);
 					console.log("web3Provider---",web3Provider.chainId);
-					if(web3Provider.chainId == '0x38') {
+					// if(web3Provider.chainId == '0x38') {
 						let web3js = new Web3(web3Provider); //web3js就是你需要的web3实例
 						this.setWeb3Provider(web3js)
 						console.log(this.web3Provider)
 						web3js.eth.getAccounts().then(res=>{
 							that.setEthAddress(res[0]);
 						});
-					} else {
-						// this.$message.error('Please switch the BSC network');
-						this.$message({
-							duration: 0,
-							type: 'error',
-							message: 'Please switch the BSC network'
-						})
-					}
+					// } else {
+					// 	// this.$message.error('Please switch the BSC network');
+					// 	this.$message({
+					// 		duration: 0,
+					// 		type: 'error',
+					// 		message: 'Please switch the BSC network'
+					// 	})
+					// }
 					// 0x61 测试网络
 					// 0x38 正式网络
 				} catch (error) {
