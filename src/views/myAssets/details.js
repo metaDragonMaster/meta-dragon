@@ -377,6 +377,7 @@ export default {
 			{
 				type:'Hatchability',//Hatchability
 				value:'0/7',
+				key:'Hatch',
 				image:require("@/assets/myAssets-details/material-4.png"),
 			},
 		],
@@ -486,7 +487,11 @@ export default {
 					}
 				}
 			})
+			console.log('params.dragonHatch')
 			this.materialList.map(item=>{
+				if(item.key == 'Hatch') {
+					item.value = params.dragonHatch + '/7'
+				}
 				for(let i in Attrs) {
 					if(item.key == i) {
 						if(item.key == 'quality') {

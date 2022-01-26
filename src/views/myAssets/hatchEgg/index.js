@@ -124,16 +124,22 @@ export default {
 			let LcWei = web3.utils.fromWei(balanceLc);
 			if (parseInt(LcWei) < parseInt(this.hatchPrice)) {
 				this.$message.error('lc balance is not enough');
-				// that.currentStatic = 2;
-				that.loading = false;
+				this.loading = false;
 			} else {
 				let idA = this.dragonInfoLeft.id;
 				let idB = this.dragonInfoRight.id;
 				let lcNum = web3.utils.toWei(this.hatchPrice.toString());
 				// let y = new Decimal(lcNum);
-				let sendStatic = await nftContract.methods.incubation(idA,idB,lcNum).send({
-					from: address,
-				})
+				try{
+					let sendStatic = await nftContract.methods.incubation(idA,idB,lcNum).send({
+						from: address,
+					})
+				}catch(e){
+					//TODO handle the exception
+					this.$message.error('hatch failed');
+					this.loading = false;
+				}
+				
 				if (sendStatic.status) {
 					// that.currentStatic = 1;
 					this.$message.success('hatch success');

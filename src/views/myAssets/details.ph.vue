@@ -1,9 +1,9 @@
 <template>
 	<div class="my-assets-details-view relative">
-	<!-- 	<div class="come-back">
+		<div class="come-back" @click="$routerUtil.toPath('/myAssets')">
 			<img class="arrow-left" src="@/assets/myAssets-details/come-back-arrow-left.png" alt="">
 			<img src="@/assets/text-shadow/back-off.png" alt="">
-		</div> -->
+		</div>
 		<div class="dragon-info-card">
 			<div class="skill-module">
 				<p class="dragon-name">Dragon_ziran_01</p>
@@ -119,14 +119,15 @@
 	// 	position: sticky;
 	// 	top: 100px;
 	// }
-	// .come-back {
-	// 	width: 165px;
-	// 	margin-bottom: 100px;
-	// 	.arrow-left {
-	// 		margin-right: -10px;
-	// 		margin-bottom: -85px;
-	// 	}
-	// }
+	.come-back {
+		width: 165px;
+		margin: 10px 30px 20px;
+		zoom: 0.6;
+		.arrow-left {
+			margin-right: -10px;
+			margin-bottom: -85px;
+		}
+	}
 	.dragon-info-card {
 		zoom: 0.5;
 		color: #FFF;

@@ -9,6 +9,7 @@
 					:stars="dragonInfoLeft.stars"
 					:skills="dragonInfoLeft.skillImages ? dragonInfoLeft.skillImages : []"
 					:dragonImage="dragonInfoLeft.dragonImage"
+					:dragonHatch="hatchLeftNum"
 					@choice="openChoiceDragon('dragonInfoLeft',dragonInfoLeft.id)"
 				></dragonCard>
 				<p class="shadow-text">MBC: {{hatchLeftNum}}/7</p>
@@ -21,6 +22,7 @@
 					:stars="dragonInfoRight.stars"
 					:skills="dragonInfoRight.skillImages ? dragonInfoRight.skillImages : []"
 					:dragonImage="dragonInfoRight.dragonImage"
+					:dragonHatch="hatchRightNum"
 					@choice="openChoiceDragon('dragonInfoRight',dragonInfoRight.id)"
 				></dragonCard>
 				<p class="shadow-text">MBC: {{hatchRightNum}}/7</p>
