@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "decimal.js": "^10.3.1",
     "element-ui": "^2.15.6",
     "lib-flexible": "^0.3.2",
     "moment": "^2.29.1",
@@ -24,7 +25,7 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-	"babel-plugin-transform-remove-console": "^6.9.4",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "node-sass": "^4.0.0",
     "sass": "1.26.2",
     "sass-loader": "8.0.2",

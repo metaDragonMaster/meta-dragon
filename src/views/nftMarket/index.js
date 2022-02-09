@@ -269,10 +269,19 @@ export default {
 			let usdtXs = web3.utils.fromWei(usdtPrice);
 						
 			//let weiUsdtPrice = web3.utils.toWei(frequencyUsdtPrice)
-			let weiUsdtPrice = web3.utils.toWei(parseInt(usdtXs * frequency).toString());
+			//let weiUsdtPrice = web3.utils.toWei(parseInt(usdtXs * frequency).toString());
+			
+			let yy = new Decimal(usdtXs);
+			let z = new Decimal(frequency);
+			console.log("weiUsdtPrice : ",yy * z);
+			//console.log("weiUsdtPrice : ",weiUsdtPrice);
+			//let weiUsdtPrice = web3.utils.toWei(new Decimal(yy * z).toString());
+			
+			 
+			let weiUsdtPrice = web3.utils.toWei(new Decimal(yy).mul(new Decimal(z)).toString());
 			let a = web3.utils.fromWei(weiUsdtPrice);
 			let b = web3.utils.fromWei(balanceUsdt);
-						
+			
 			if (parseInt(a) > parseInt(b)) {
 				that.$message.error('LB not enough');
 				that.currentStatic = 2;

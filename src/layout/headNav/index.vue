@@ -106,6 +106,7 @@ export default {
 				font-size: 14px;
 				position: relative;
 				padding: 0 30px;
+				cursor: pointer;
 			}
 			li.active:after {
 				content: '';
