@@ -1,23 +1,25 @@
 import dragonCard from "@/components/dragonCard.vue"
-import Abi721Nft from "@/jsons/abi-721-NFT.js";
-import AbiLCErc20 from "@/jsons/abi-LC-ERC20.js";
-import AbiUSDT from "@/jsons/USDT_token_abi.js";
-import AbiLb from "@/jsons/LB_abi.js";
-import {
-	lbAddress,
-	lcAddress,
-	NftAddress,
-} from "@/jsons/contractAddress.js";
-import {
-	mapGetters,
-	mapActions
-} from "vuex";
+// import Abi721Nft from "@/jsons/abi-721-NFT.js";
+// import AbiLCErc20 from "@/jsons/abi-LC-ERC20.js";
+// import AbiUSDT from "@/jsons/USDT_token_abi.js";
+// import AbiLb from "@/jsons/LB_abi.js";
+// import {
+// 	lbAddress,
+// 	lcAddress,
+// 	NftAddress,
+// } from "@/jsons/contractAddress.js";
+// import {
+// 	mapGetters,
+// 	mapActions
+// } from "vuex";
+import getAssetsMixin from "@/jsons/getAssetsMixin.js"
 export default {
 	name: 'myAssets',
+	mixins:[getAssetsMixin],
 	data() {
 		return {
 			elementLoadingBackground: 'rgba(0, 0, 0, 0.8)',
-			loading: false,
+			// loading: false,
 			dragonGridList: [
 				{
 					bgImage: require('@/assets/myAssets/col-1.png'),
@@ -67,24 +69,24 @@ export default {
 	components: {
 		dragonCard,
 	},
-	computed: {
-		...mapGetters({
-			web3Provider: 'web3Provider',
-			ethAddress: 'ethAddress',
-			userAssets:'userAssets'
-		}),
-	},
-	mounted() {
+	// computed: {
+	// 	...mapGetters({
+	// 		web3Provider: 'web3Provider',
+	// 		ethAddress: 'ethAddress',
+	// 		userAssets:'userAssets'
+	// 	}),
+	// },
+	created() {
 		this.$nextTick(() => {
-			this.getUsdtValue()
+			this.getAssets()
 		})
 	},
 	methods: {
-		...mapActions({
-			setNftEggNum:'setNftEggNum',
-			setLc:'setLc',
-			setLb:'setLb'
-		}),
+		// ...mapActions({
+		// 	setNftEggNum:'setNftEggNum',
+		// 	setLc:'setLc',
+		// 	setLb:'setLb'
+		// }),
 		toDetails(item) {
 			// this.$routerUtil.toPath('/myAssets/details')
 			this.$routerUtil.toName('myAssetsDetails', item);
@@ -95,39 +97,28 @@ export default {
 				this.$routerUtil.toPath(item.path);
 			}
 		},
-		async getUsdtValue() {
-			if (!this.web3Provider) return;
-			let web3 = this.web3Provider;
-			this.loading = true;
-			let address = this.ethAddress;
-			// console.log(address);
-			let lbContract = new web3.eth.Contract(AbiLb, lbAddress);
-			let lbBalance = await lbContract.methods.balanceOf(address).call();
-			let lcContract = new web3.eth.Contract(AbiLCErc20, lcAddress);
-			let lcBalance = await lcContract.methods.balanceOf(address).call();
-			// let NftContract = new web3.eth.Contract(Abi721Nft, NftAddress);
-			// let NftBalance = await NftContract.methods.balanceOf(address).call();
-			// console.log(lbBalance);
-			// console.log(lcBalance);
-			let lbValue = web3.utils.fromWei(lbBalance);
-			let lcValue = web3.utils.fromWei(lcBalance);
-			console.log('-----------------------');
-			console.log(lbValue);
-			console.log(lcValue);
-			this.setLb(lbValue)
-			this.setLc(lcValue)
-			console.log(this.assets)
-			// this.dragonGridList.map(item => {
-			// 	if (item.type == 'Lb') {
-			// 		item.num = lbValue
-			// 	} else if (item.type == 'Lc') {
-			// 		item.num = lcValue
-			// 	} else if (item.type == 'NFT') {
-			// 		item.num = NftBalance
-			// 	}
-			// })
-			
-			this.loading = false;
-		},
+		// async getUsdtValue() {
+		// 	if (!this.web3Provider) return;
+		// 	let web3 = this.web3Provider;
+		// 	this.loading = true;
+		// 	let address = this.ethAddress;
+		// 	// console.log(address);
+		// 	let lbContract = new web3.eth.Contract(AbiLb, lbAddress);
+		// 	let lbBalance = await lbContract.methods.balanceOf(address).call();
+		// 	let lcContract = new web3.eth.Contract(AbiLCErc20, lcAddress);
+		// 	let lcBalance = await lcContract.methods.balanceOf(address).call();
+		// 	// let NftContract = new web3.eth.Contract(Abi721Nft, NftAddress);
+		// 	// let NftBalance = await NftContract.methods.balanceOf(address).call();
+		// 	// console.log(lbBalance);
+		// 	// console.log(lcBalance);
+		// 	let lbValue = web3.utils.fromWei(lbBalance);
+		// 	let lcValue = web3.utils.fromWei(lcBalance);
+		// 	console.log('-----------------------');
+		// 	console.log(lbValue);
+		// 	console.log(lcValue);
+		// 	this.setLb(lbValue)
+		// 	this.setLc(lcValue)
+		// 	this.loading = false;
+		// },
 	}
 }

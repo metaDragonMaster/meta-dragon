@@ -4,7 +4,7 @@
 		<!-- <p class="time-down">{{id}}</p> -->
 		<p class="time-down">#{{eggId}}</p>
 		<p class="time-down" v-show="!overdue">{{timeDown}}</p>
-		<button class="theme-type send-button" v-if="overdue" @click="eggIncubation">hatch</button>
+		<button class="theme-type send-button" v-if="overdue" v-loading="eggLoading" @click="eggIncubation">hatch</button>
 	</div>
 </template>
 <script>
@@ -13,19 +13,20 @@ import Abi721Nft from "@/jsons/abi-721-NFT.js";
 import {
 	NftAddress,
 } from "@/jsons/contractAddress.js"
-import moment from "moment"
+import moment from "moment";
 export default {
 	data: () => ({
 		timer: null,
 		eggTimestamp:'',
 		timeDown:'',
+		eggLoading:false,
 		// overdue:false,//是否过期
 	}),
 	props: {
 		id: {
 			type: String,
 			default: ''
-		}
+		},
 	},
 	computed: {
 		...mapGetters({
@@ -79,14 +80,23 @@ export default {
 		},
 		async eggIncubation() {
 			if (!this.web3Provider || !this.id) return;
-			let web3 = this.web3Provider;
-			let nftAddress = NftAddress;
-			let contract721 = new web3.eth.Contract(Abi721Nft, nftAddress);
-			console.log(this.id)
-			let res = await contract721.methods.eggIncubation(this.id).send({
-				from: this.ethAddress
-			});
-			console.log(res)
+			this.eggLoading = true
+			try{
+				let web3 = this.web3Provider;
+				let nftAddress = NftAddress;
+				let contract721 = new web3.eth.Contract(Abi721Nft, nftAddress);
+				console.log(this.id)
+				let res = await contract721.methods.eggIncubation(this.id).send({
+					from: this.ethAddress
+				});
+				console.log(res)
+				this.$emit("eggIncubationSuccess",res)
+				this.eggLoading = false;
+			}catch(e){
+				//TODO handle the exception
+				console.error(e)
+				this.eggLoading = false;
+			}
 		}
 	}
 };

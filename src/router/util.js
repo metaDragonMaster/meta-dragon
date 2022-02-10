@@ -44,7 +44,9 @@ function getValueBykey (array,key) {
 	// console.log(value)
 	return value;
 }
-
+// function replace () {
+	
+// }
 function toRoute({
 	type,url,params
 }) {

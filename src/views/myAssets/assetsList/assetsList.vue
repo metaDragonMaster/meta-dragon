@@ -3,7 +3,7 @@
 		<p class="all-assets">All Assets:{{ AllAssets }}</p>
 		<div class="head-grid">
 			<ThemeSelect :value="selectTypeValue" :list="selectList" @emitValue="emitValue" v-loading="pushEnd"></ThemeSelect>
-			<button class="theme-border-button batch-transfer-button" @click="changeCardCheck">Batch transfer</button>
+			<button class="theme-border-button batch-transfer-button" @click="changeCardCheck" v-loading="batchLoading" v-if="showBatchTransfer">Batch transfer</button>
 			<div class="batch-buttons handle-buttons" v-show="typeCheck">
 				<button @click="removeChecked">CANCEL</button>
 				<button class="theme-type" @click="defineChecked">DEFINE</button>
@@ -27,17 +27,22 @@
 		</ul>
 		<ul class="dragon-table-data-list" v-if="dragonEggList.length > 0 && selectTypeValue == 'Egg'">
 			<li v-for="item in dragonEggList" :key="item.id" >
-				<eggCard :id="item.id"></eggCard>
+				<eggCard :id="item.id" @eggIncubationSuccess="eggIncubationSuccess"></eggCard>
 			</li>
 		</ul>
 		<el-dialog :visible.sync="batchDialog" width="700px" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
 			<div class="dragon-dialog-body">
 				<img src="@/assets/text-shadow/batch-transfer.png" alt="" />
-				<button class="theme-border-button">Wallet address</button>
+				<div class="theme-border-button">
+					<input type="text" class="send-address" ref="sendAddress" placeholder="Wallet address"/>
+				</div>
 				<p>Please enter wallet address</p>
 				<div class="batch-buttons">
-					<button @click="closeBatchDialog">CANCEL</button>
-					<button class="theme-type" @click="sendDefine">DEFINE</button>
+					<button @click="closeBatchDialog" v-loading="batchDialogLoading" >CANCEL</button>
+					<button class="theme-type" v-loading="batchDialogLoading" @click="()=> {
+						let value = $refs['sendAddress'].value
+						sendDefine(value)
+					}">DEFINE</button>
 				</div>
 			</div>
 		</el-dialog>
@@ -113,10 +118,18 @@
 	.theme-border-button {
 		width: 565px;
 		height: 80px;
-		font-size: 30px;
 		color: #696978;
 		margin-top: 100px;
 		margin-bottom: 32px;
+		.send-address {
+			width:  calc(100% - 1rem);
+			height: calc(100% - 1rem);
+			background-color: transparent;
+			border: 0;
+			text-align: center;
+			font-size: 16px;
+			color: #FFFFFF;
+		}
 	}
 	p {
 		color: #0395f3;

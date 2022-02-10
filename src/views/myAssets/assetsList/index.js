@@ -7,12 +7,15 @@
 // import skillImageS5007 from '@/assets/skills/s/5007.png';
 // import skillImageS5008 from '@/assets/skills/s/5008.png';
 
-// import Abi721Nft from "@/jsons/abi-721-NFT.js";
-// import {
-// 	NftAddress,
-// } from "@/jsons/contractAddress.js";
+import AbiNft from "@/jsons/abi-721-NFT.js";
+import AbiBatchTransfer from "@/jsons/abiBatchTransfer"
 import {
-	mapActions
+	NftAddress,
+	batchTransferAddress
+} from "@/jsons/contractAddress.js";
+import {
+	mapActions,
+	mapGetters
 } from "vuex";
 // import axios from "axios";
 
@@ -23,14 +26,17 @@ import eggCard from "@/components/eggCard.vue"
 import skillImages from "@/jsons/skill_Images.js";
 import dragonImages from "@/jsons/dragon_Images.js";
 import getDragonListMixin from "@/jsons/getDragonListMixin.js";
+import getAssetsMixin from "@/jsons/getAssetsMixin.js"
 import moment from 'moment';
 
 export default {
-	mixins:[getDragonListMixin],
+	mixins:[getDragonListMixin,getAssetsMixin],
 	data: () => ({
 		batchDialog:false,
 		elementLoadingBackground:'rgba(0, 0, 0, 0.8)',
 		loading:false,
+		batchLoading:false,
+		batchDialogLoading:false,
 		typeCheck:false,//是否进行选择
 		selectTypeValue:"Dragon",
 		// selectTypeValue:"Egg",
@@ -45,7 +51,7 @@ export default {
 			}
 		],
 		timer:null,
-		
+		// sendAddress: '',
 		// dragonImages: dragonImages,
 		// skillsList: skillImages,
 	}),
@@ -55,16 +61,19 @@ export default {
 		eggCard
 	},
 	computed: {
-		// ...mapGetters({
-		// 	web3Provider: 'web3Provider',
-		// 	ethAddress: 'ethAddress'
-		// }),
+		...mapGetters({
+			web3Provider: 'web3Provider',
+			ethAddress: 'ethAddress'
+		}),
 		AllAssets() {
 			let assetsNum = '';
 			if(this.selectTypeValue == "Egg") assetsNum = this.dragonEggList.length;
 			if(this.selectTypeValue == "Dragon") assetsNum = this.dragonList.length;
 			// console.log(assetsNum);
 			return assetsNum;
+		},
+		showBatchTransfer() {
+			return this.selectTypeValue == 'Dragon'
 		}
 	},
 	beforeDestroy() {
@@ -73,10 +82,11 @@ export default {
 	mounted() {
 		this.$nextTick(()=>{
 			this.getDragonList();
-			this.setTimer()
+			this.setTimer();
 		})
 	},
 	methods: {
+		// 
 		...mapActions({
 			setTimestamp:'setTimestamp'
 		}),
@@ -91,19 +101,6 @@ export default {
 			this.selectTypeValue = val;
 			// this.dragonList = []
 			// this.getDragonList()
-		},
-		closeBatchDialog() {
-			this.sendDefine();
-			this.removeChecked();
-		},
-		sendDefine() {
-			this.batchDialog = false;
-		},
-		defineChecked() {
-			this.batchDialog = true;
-		},
-		changeCardCheck() {
-			this.typeCheck = !this.typeCheck;
 		},
 		cardClick(item) {
 			if(this.typeCheck) {
@@ -122,46 +119,122 @@ export default {
 			// this.changeCardCheck()
 			this.typeCheck = false;
 		},
+		closeBatchDialog() {
+			this.batchDialog = false;
+			this.$refs['sendAddress'].value = '';
+			this.removeChecked();
+		},
+		eggIncubationSuccess() {
+			this.getAssets();
+			this.getDragonList();
+		},
+		async sendDefine(addressValue) {
+			if (!this.web3Provider) return;
+			this.batchDialogLoading = true;
+			let web3 = this.web3Provider;
+			let address = this.ethAddress;
+			let BatchContract = new web3.eth.Contract(AbiBatchTransfer, batchTransferAddress);
+			console.log(BatchContract)
+			let checkedDragonIdList = this.getCheckDragonList();
+			console.log(checkedDragonIdList)
+			try {
+				// 0xb75d7BCE4cE82fcaB65318A71a34C7AE709D9ef7
+				let sendStatic = await BatchContract.methods
+					.batchTransfer(
+						NftAddress,
+						addressValue,
+						checkedDragonIdList
+					).send({
+						from: address
+					})
+					console.log(sendStatic)
+				if (sendStatic.status) {
+					console.log('转账成功')
+					this.batchDialogLoading = false;
+					this.$message.success("batchTransfer success")
+					this.closeBatchDialog();
+					this.getAssets();
+					this.getDragonList();
+					// this.$routerUtil.toName('redirect',{path:'/myAssets'})
+					return true;
+				} else {
+					this.batchDialogLoading = false;
+					console.log('转账失败')
+					this.$message.warning("batchTransfer grant failed")
+				}
+			} catch (e) {
+				console.log('转账失败 catch')
+				this.$message.warning("batchTransfer grant failed")
+				this.batchDialogLoading = false;
+			}
+		},
+		// closeBatchDialog() {
+		// 	this.batchDialog = false;
+		// },
+		openBatchDialog() {
+			this.batchDialog = true;
+		},
+		defineChecked() {
+			let checkedDragonIdList = this.getCheckDragonList();
+			if(checkedDragonIdList.length<=0) return;
+			this.openBatchDialog();
+		},
+		getCheckDragonList() {
+			return this.dragonList.filter(item=>item.isChecked == true).map(item=> item = item.id);
+		},
+		async changeCardCheck() {
+			let haveApprove = await this.batchTransferApprove();
+			console.log()
+			if(haveApprove) {
+				this.typeCheck = !this.typeCheck;
+			}
+		},
+		async batchTransferApprove() {
+			if (!this.web3Provider) return;
+			this.batchLoading = true;
+			let web3 = this.web3Provider;
+			let address = this.ethAddress;
+			let NftContract = new web3.eth.Contract(AbiNft, NftAddress);
+			let contractAddress = batchTransferAddress;
+			let rs = await NftContract.methods.isApprovedForAll(address, contractAddress).call();
+			console.log(rs);
+			// let y = new Decimal(rs)
+			let contract721 = new web3.eth.Contract(AbiNft, contractAddress);
+			if (!rs) {
+				try {
+					let sendStatic = await NftContract.methods
+						.setApprovalForAll(
+							contractAddress,
+							true
+						).send({
+							from: address
+						})
+					if (sendStatic.status) {
+						console.log('授权成功')
+						this.$message.success("approve success")
+						return true;
+					} else {
+						this.$message.warning("approve grant failed")
+					}
+					this.batchLoading = false;
+				} catch (e) {
+					this.$message.warning("approve grant failed")
+					this.batchLoading = false;
+				}
+			} else {
+				this.batchLoading = false;
+				return true;
+				// console.log('已连接上区块链')
+			}
+			return false;
+		},
+		
 		async getDragonList() {
 			if (!this.web3Provider) return;
 			this.loading = true;
 			let isEgg = this.selectTypeValue == 'Egg'
 			await this.$M_getDragons(isEgg);
 			this.loading = false;
-			
-			
-			// let web3 = this.web3Provider;
-			// let address = this.ethAddress;
-			// let NftContract = new web3.eth.Contract(Abi721Nft, NftAddress);
-			// let NFTGetTokenIds = await NftContract.methods.getTokenIds(address).call();
-			// // console.log(NFTGetTokenIds);
-			// NFTGetTokenIds.map(async item => {
-			// 	let tokenUrl = await NftContract.methods.tokenURI(item).call();
-			// 	let dragonInfo = await axios.get(tokenUrl);
-			// 	let dragonImage = this.dragonImages.filter(dragonImageItem => dragonInfo
-			// 			.data.properties.id.toString() == dragonImageItem.id)[0]
-			// 		.dragonImage;
-			// 	// console.log(dragonImage)
-			// 	let params = JSON.parse(JSON.stringify(dragonInfo.data));
-			// 	let skillIds = params.properties.skill.split(',');
-			// 	let skillImages = [];
-			// 	skillIds.map(skillId => {
-			// 		this.skillsList.map(item => {
-			// 			if (item.id == skillId) {
-			// 				skillImages.push(item.skillImageS);
-			// 			}
-			// 		})
-			// 	})
-			// 	this.dragonList.push({
-			// 		id: item,
-			// 		dragonImage: dragonImage,
-			// 		skillImages: skillImages,
-			// 		isChecked:false,
-			// 		...dragonInfo.data
-			// 	});
-			// })
-			// this.createCheckedList(NFTGetTokenIds);
-			// console.log(this.dragonList)
 		},
 	}
 }

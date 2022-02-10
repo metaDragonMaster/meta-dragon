@@ -16,7 +16,7 @@
 				<p>{{ item.num }}</p>
 				<span>{{ item.type }}</span>
 			</li> -->
-			<li v-loading="loading"
+			<li v-loading="getAssetsloading"
 				:element-loading-background="elementLoadingBackground"
 				:style="{
 					'background-image': `url(${require('@/assets/myAssets/col-1.png')})`
@@ -25,7 +25,7 @@
 				<p>{{ userAssets.Lb }}</p>
 				<span>Lb</span>
 			</li>
-			<li v-loading="loading"
+			<li v-loading="getAssetsloading"
 				:element-loading-background="elementLoadingBackground"
 				:style="{
 					'background-image': `url(${require('@/assets/myAssets/col-2.png')})`
@@ -34,7 +34,7 @@
 				<p>{{ userAssets.Lc }}</p>
 				<span>Lc</span>
 			</li>
-			<li v-loading="loading"
+			<li v-loading="getAssetsloading"
 				:element-loading-background="elementLoadingBackground"
 				:style="{
 					'background-image': `url(${require('@/assets/myAssets/col-3.png')})`
@@ -43,7 +43,7 @@
 				<p>{{ userAssets.NFT }}</p>
 				<span>NFT</span>
 			</li>
-			<li v-loading="loading"
+			<li v-loading="getAssetsloading"
 				:element-loading-background="elementLoadingBackground"
 				:style="{
 					'background-image': `url(${require('@/assets/myAssets/col-4.png')})`

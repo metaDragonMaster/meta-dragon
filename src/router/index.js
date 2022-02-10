@@ -90,6 +90,11 @@ const routes = [{
 			},
 			component: () => isPc ? import('@/views/myAuthorizationCode/index.vue') : import('@/views/myAuthorizationCode/index.ph.vue'),
 		},
+		{
+			path:"/redirect",
+			name:"redirect",
+			component: () => import('@/views/redirect/index.vue'),
+		}
 	]
 
 }]

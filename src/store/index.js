@@ -16,6 +16,7 @@ export default new Vuex.Store({
 		NFT:0,
 		EGG:0,
 		timestamp:0,
+		// haveBatchApprove:false,// 
 	},
 	mutations: {
 		SET_THEME:(state,theme)=>{
