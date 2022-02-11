@@ -1,6 +1,11 @@
 <template>
 	<div class="assets-list-module" v-loading="loading" :element-loading-background="elementLoadingBackground">
-		<p class="all-assets">All Assets:{{ AllAssets }}</p>
+		<p class="all-assets">
+			<span>All Assets:{{ AllAssets }}</span>
+		</p>
+		<p class="all-assets" v-show="typeCheck">
+			<span>checked dragon: {{checkDragonLength}}</span>
+		</p>
 		<div class="head-grid">
 			<ThemeSelect :value="selectTypeValue" :list="selectList" @emitValue="emitValue" v-loading="pushEnd"></ThemeSelect>
 			<button class="theme-border-button batch-transfer-button" @click="changeCardCheck" v-loading="batchLoading" v-if="showBatchTransfer">Batch transfer</button>
@@ -33,6 +38,9 @@
 		<el-dialog :visible.sync="batchDialog" width="700px" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false">
 			<div class="dragon-dialog-body">
 				<img src="@/assets/text-shadow/batch-transfer.png" alt="" />
+				<p class="checked-dragon-length">
+					<span>checked dragon: {{checkDragonLength}}</span>
+				</p>
 				<div class="theme-border-button">
 					<input type="text" class="send-address" ref="sendAddress" placeholder="Wallet address"/>
 				</div>
@@ -115,11 +123,15 @@
 		flex-direction: column;
 		align-items: center;
 	}
+	.checked-dragon-length {
+		padding-top: 50px;
+		font-size: 30px;
+	}
 	.theme-border-button {
 		width: 565px;
 		height: 80px;
 		color: #696978;
-		margin-top: 100px;
+		margin-top: 50px;
 		margin-bottom: 32px;
 		.send-address {
 			width:  calc(100% - 1rem);

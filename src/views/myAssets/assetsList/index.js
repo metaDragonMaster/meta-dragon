@@ -74,6 +74,12 @@ export default {
 		},
 		showBatchTransfer() {
 			return this.selectTypeValue == 'Dragon'
+		},
+		getCheckDragonList() {
+			return this.dragonList.filter(item=>item.isChecked == true).map(item=> item = item.id);
+		},
+		checkDragonLength() {
+			return this.getCheckDragonList.length
 		}
 	},
 	beforeDestroy() {
@@ -135,7 +141,7 @@ export default {
 			let address = this.ethAddress;
 			let BatchContract = new web3.eth.Contract(AbiBatchTransfer, batchTransferAddress);
 			console.log(BatchContract)
-			let checkedDragonIdList = this.getCheckDragonList();
+			let checkedDragonIdList = this.getCheckDragonList;
 			console.log(checkedDragonIdList)
 			try {
 				// 0xb75d7BCE4cE82fcaB65318A71a34C7AE709D9ef7
@@ -175,18 +181,19 @@ export default {
 			this.batchDialog = true;
 		},
 		defineChecked() {
-			let checkedDragonIdList = this.getCheckDragonList();
+			let checkedDragonIdList = this.getCheckDragonList;
 			if(checkedDragonIdList.length<=0) return;
 			this.openBatchDialog();
 		},
-		getCheckDragonList() {
-			return this.dragonList.filter(item=>item.isChecked == true).map(item=> item = item.id);
-		},
+		// getCheckDragonList() {
+		// 	return this.dragonList.filter(item=>item.isChecked == true).map(item=> item = item.id);
+		// },
 		async changeCardCheck() {
+			if(this.typeCheck == true) return this.typeCheck = false;
 			let haveApprove = await this.batchTransferApprove();
 			console.log()
 			if(haveApprove) {
-				this.typeCheck = !this.typeCheck;
+				this.typeCheck = true;
 			}
 		},
 		async batchTransferApprove() {
@@ -199,7 +206,7 @@ export default {
 			let rs = await NftContract.methods.isApprovedForAll(address, contractAddress).call();
 			console.log(rs);
 			// let y = new Decimal(rs)
-			let contract721 = new web3.eth.Contract(AbiNft, contractAddress);
+			// let contract721 = new web3.eth.Contract(AbiNft, contractAddress);
 			if (!rs) {
 				try {
 					let sendStatic = await NftContract.methods

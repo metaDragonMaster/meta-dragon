@@ -40,7 +40,7 @@ export default {
 				// 	path: '/whiteBook'
 				// },
 				{
-					title: 'Auth Code',
+					title: 'AUTH CODE',
 					path: '/myAuthorizationCode'
 				},
 			]

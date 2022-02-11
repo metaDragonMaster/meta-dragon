@@ -102,7 +102,7 @@ export default {
 					// 0x38 正式网络
 				} catch (error) {
 					// 用户不授权时
-					console.error('User denied account access');
+					console.error('User denied accoun t access');
 					// that.$message('User denied account access');
 					throw new Error(error);
 				}

@@ -1,5 +1,5 @@
 <template>
-	<div class="white-book-view" :class="[isPc ? 'limit-max-width' : 'narrow']">
+	<div>
 		<h1 class="white-book-title">《MetaDragon》白皮书</h1>
 		<h3>1.MetaDragon</h3>
 		<p>
@@ -224,98 +224,13 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+
 export default {
-	data() {
-		return {
-			tableData: [
-				{ num: '0', lc: '8000', day: '7' },
-				{ num: '1', lc: '8100', day: '7' },
-				{ num: '2', lc: '8200', day: '7' },
-				{ num: '3', lc: '8300', day: '7' },
-				{ num: '4', lc: '8400', day: '7' },
-				{ num: '5', lc: '8500', day: '7' },
-				{ num: '6', lc: '8600', day: '7' }
-			]
-		};
-	},
-	components: {},
-	computed: {
-		...mapGetters({
-			isPc: 'isPc'
-		})
-	},
-	mounted() {},
-	methods: {}
+	props:{
+		tableData:{
+			type:Array,
+			default:()=>[]
+		}
+	}
 };
 </script>
-<style lang="scss" scoped="scoped">
-.white-book-view {
-	min-height: 100vh;
-	padding-bottom: 100px;
-	background-color: #1f1d32;
-	color: #ffffff;
-	.white-book-title {
-		text-align: center;
-	}
-	& > img {
-		width: 100%;
-	}
-	&.narrow {
-		padding: 16px;
-		& > * {
-			zoom: 0.8;
-		}
-		table {
-			margin: 12px auto;
-		}
-	}
-	h3 {
-		margin: 16px 0;
-	}
-	p {
-		margin: 8px 0;
-	}
-	ul > li {
-		list-style: disc;
-		list-style-position: inside;
-	}
-	ol {
-		text-indent: 24px;
-		> li {
-			list-style: square;
-			list-style-position: inside;
-		}
-	}
-	
-	table {
-		background-color: #FFFFFF;
-		color: #333333;
-		border: 1px solid #333333;
-		margin: 24px;
-		tr {
-			text-align: center;
-			& > th {
-				background-color: #E7E6E6;
-			}
-			& > td,
-			& > th {
-				min-width: 100px;
-				max-width: 125px;
-			}
-			&:not(:last-child) {
-				& > td,
-				& > th {
-					border-bottom: 1px solid #333333;
-				}
-			}
-			& > td,
-			& > th {
-				&:not(:last-child) {
-					border-right: 1px solid #333333;
-				}
-			}
-		}
-	}
-}
-</style>
