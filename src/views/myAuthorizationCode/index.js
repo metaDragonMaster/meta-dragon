@@ -65,7 +65,9 @@ export default {
 					time: ''
 				}).then(res => {
 					this.$message.success('create success');
-					this.uuid = message;
+					// this.uuid = message;
+					console.log(res)
+					this.uuid = res.data.result;
 				}).catch(e => {
 					this.$message.error('create error')
 				})
