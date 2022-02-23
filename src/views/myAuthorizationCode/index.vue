@@ -4,9 +4,9 @@
 			<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="" />
 			<img class="title-image" src="@/assets/myAuthorizationCode/title.png" alt="" />
 			<div class="ps-text">
-				<p>Explain:You can directly use the authorization code to log in to the game.</p>
-				<p>Theauthorization code is not the</p>
-				<p>private key. The authorization code is used permanently</p>
+				<p>{{$t('myAuthorizationCode.ps_text.p1')}}</p>
+				<p>{{$t('myAuthorizationCode.ps_text.p2')}}</p>
+				<p>{{$t('myAuthorizationCode.ps_text.p3')}}</p>
 			</div>
 			<div class="theme-type border-button" @click="mycopy(uuid)">
 				<span>{{uuid}}</span>
@@ -16,7 +16,7 @@
 				<span>24:00:00</span>
 				<span class="ps">After Regenerate</span>
 			</p> -->
-			<button class="theme-type submit-button" @click="sign">Generate</button>
+			<button class="theme-type submit-button" @click="sign">{{$t('myAuthorizationCode.generate')}}</button>
 		</div>
 	</div>
 </template>

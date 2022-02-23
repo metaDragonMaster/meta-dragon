@@ -1,87 +1,87 @@
 <template>
-	<div class="nft-market-view banner">
-		<img class="title" src="@/assets/text-shadow/go-live.png" alt="" />
-	<!-- 	<div class="timer-model">
-			<p class="timer">
-				{{timeDown}}
-			</p>
-		</div> -->
-		<div class="egg-frame"><img class="egg" src="@/assets/nft-market/egg.png" alt="" /></div>
-		
-		<!-- v-show="loading" -->
-		<el-alert class="alert" v-show="currentStatic>=0"  show-icon :closable="false" :title="static.title" :type="static.type" effect="dark" />
-		<button v-if="haveAuth == false" class="send-button" @click="getLbAuth"  :disabled="loading">
-			<i class="el-icon-loading" v-show="loading"></i>
-			获取授权
-		</button>
-		<div v-else >
-			<button  class="send-button" @click="ethLbSend(1)" :disabled="loading">
-				<i class="el-icon-loading" v-show="loading"></i>
-				1 sommon {{usdtValue}}LB
-			</button>
-			<button  class="send-button" @click="ethLbSend(10)" :disabled="loading">
-				<i class="el-icon-loading" v-show="loading"></i>
-				10 sommon {{usdtValue*10}}LB
-			</button>
-			<button  class="send-button" @click="ethLbSend(50)" :disabled="loading">
-				<i class="el-icon-loading" v-show="loading"></i>
-				50 sommon {{usdtValue*50}}LB
-			</button>
+	<div class="trading-market-view limit-max-width-witch-pc">
+		<img class="title-image" src="@/assets/text-shadow/nft-market.png" alt />
+		<ul class="tabs-list">
+			<li
+				v-for="({ title, icon, path, activeIcon }, index) in tabs"
+				:key="title"
+				:class="{ active: index == activeItem }"
+				@click="$routerUtil.toPath(path)"
+			>
+				<img :src="index == activeItem ? activeIcon : icon" alt />
+				<p>{{ title }}</p>
+			</li>
+		</ul>
+		<div class="content-view">
+			<router-view></router-view>
 		</div>
 	</div>
 </template>
 <script src="./index.js" type="text/javascript" charset="utf-8"></script>
-<style lang="scss" scoped="scoped">
-@import '@/styles/theme';
-.nft-market-view {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-image: url('~@/assets/nft-market/bg.png');
+<style lang="scss" scoped>
+.trading-market-view {
+	background-image: url("~@/assets/myAssets/bg.png");
+	background-size: 100%;
+	background-position: top;
+	background-color: #181727;
 	min-height: 100vh;
 	padding-bottom: 100px;
-	.title {
-		margin-bottom: 75px;
-		margin-top: 8px;
-	}
-	.timer-model {
-		width: 458px;
-		height: 72px;
-		background-image: url('~@/assets/nft-market/shadow-border.png');
-		background-repeat: no-repeat;
-		font-size: 40px;
-		text-align: center;
-		line-height: 72px;
-		color: #ffffff;
-	}
-	.egg-frame {
-		height: 390px;
-		width: 340px;
-		background-image: url('~@/assets/nft-market/egg-frame.png');
-		background-repeat: no-repeat;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.alert {
-		width: 214px;
-	}
-	.send-button {
-		@include GradualBGColor;
-		@include GradualBoxShadow;
-		height: 65px;
-		min-width: 214px;
-		margin-top: 20px;
-		padding: 0 20px;
-		border-radius: 12px;
-		color: #ffffff;
+	.title-image {
 		display: block;
-		&[disabled] {
-			opacity: 0.4;
+		margin: 8px auto 50px;
+		@media screen and (min-width: 751px) {
+			width: fit-content;
+		}
+		@media screen and (max-width: 750px) {
+			width: 80%;
 		}
 	}
-	// .send-buttons {
-		
-	// }
+	.tabs-list {
+		display: grid;
+		grid-template-rows: 40px;
+		grid-column-gap: 2px;
+		@media screen and (min-width: 751px) {
+			grid-template-columns: repeat(4, 280px);
+		}
+		@media screen and (max-width: 750px) {
+			grid-template-columns: repeat(4, 1fr);
+		}
+		li {
+			display: grid;
+			place-items: center;
+			position: relative;
+			background-color: #1f1d32;
+			border: 1px solid #292945;
+			color: #ffffff;
+			border-radius: 12px 12px 0 0;
+			cursor: pointer;
+			&.active {
+				background-color: #292945;
+				box-shadow: 0 -1px 3px 0 #424b9c;
+				img {
+					animation: Rotate infinite 0.6s alternate ease-out;
+				}
+				@keyframes Rotate {
+					from {
+						bottom: 50%;
+					}
+					to {
+						bottom: calc(50% + 10px);
+					}
+				}
+			}
+			img {
+				position: absolute;
+				bottom: 50%;
+				width: 55px;
+				height: 60px;
+			}
+		}
+	}
+	.content-view {
+		@media screen and (max-wdtih: 750px) {
+			padding: 0 20px;
+		}
+	}
 }
 </style>

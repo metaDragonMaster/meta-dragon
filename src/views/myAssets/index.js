@@ -50,32 +50,32 @@ export default {
 					type: 'Egg',
 				},
 			],
-			navList: [
-				// <button :class="{'theme-type': $route.name == 'assetsList'}" @click="$routerUtil.toPath('/myAssets/assetsList')">My Assets</button>
-				// <!-- <button :class="{'theme-type': $route.name == 'hatchEgg'}" @click="$routerUtil.toPath('/myAssets/hatchEgg')">Hatch</button> -->
-				{
-					path: "/myAssets/assetsList",
-					text: "My Assets",
-					name: 'assetsList'
-				},
-				{
-					path: "/myAssets/hatchEgg",
-					text: "Hatch",
-					name: 'hatchEgg'
-				},
-			]
 		}
 	},
 	components: {
 		dragonCard,
 	},
-	// computed: {
-	// 	...mapGetters({
-	// 		web3Provider: 'web3Provider',
-	// 		ethAddress: 'ethAddress',
-	// 		userAssets:'userAssets'
-	// 	}),
-	// },
+	computed: {
+		// ...mapGetters({
+		// 	web3Provider: 'web3Provider',
+		// 	ethAddress: 'ethAddress',
+		// 	userAssets:'userAssets'
+		// }),
+		navList() {
+			return  [
+				{
+					path: "/myAssets/assetsList",
+					text: this.$t('myAssets.myAssets'),
+					name: 'assetsList'
+				},
+				{
+					path: "/myAssets/hatchEgg",
+					text: this.$t('myAssets.hatch'),
+					name: 'hatchEgg'
+				},
+			]
+		}
+	},
 	created() {
 		this.$nextTick(() => {
 			this.getAssets()

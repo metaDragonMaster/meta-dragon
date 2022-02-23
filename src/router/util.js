@@ -36,7 +36,7 @@ const functions = {
 }
 
 function getValueBykey (array,key) {
-	let value ;
+	let value;
 	for (let item in array) {
 		// console.log(item)
 		if(item == key) value = functions[item];

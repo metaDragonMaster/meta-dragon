@@ -1,17 +1,19 @@
 <template>
 	<div class="assets-list-module" v-loading="loading" :element-loading-background="elementLoadingBackground">
 		<p class="all-assets">
-			<span>All Assets:{{ AllAssets }}</span>
+			<span>{{$t('myAssets_assetsList.allAssets')}}:{{ AllAssets }}</span>
 		</p>
 		<p class="all-assets" v-show="typeCheck">
-			<span>checked dragon: {{checkDragonLength}}</span>
+			<span>{{$t('myAssets_assetsList.checkedDragon')}}: {{checkDragonLength}}</span>
 		</p>
 		<div class="head-grid">
-			<ThemeSelect :value="selectTypeValue" :list="selectList" @emitValue="emitValue" v-loading="pushEnd"></ThemeSelect>
-			<button class="theme-border-button batch-transfer-button" @click="changeCardCheck" v-loading="batchLoading" v-if="showBatchTransfer">Batch transfer</button>
+			<ThemeSelect :value="selectTypeTitle" :list="selectList" @emitValue="emitValue" v-loading="pushEnd"></ThemeSelect>
+			<button class="theme-border-button batch-transfer-button" @click="changeCardCheck" v-loading="batchLoading" v-if="showBatchTransfer">
+				{{$t('myAssets_assetsList.batchTransfer')}}
+			</button>
 			<div class="batch-buttons handle-buttons" v-show="typeCheck">
-				<button @click="removeChecked">CANCEL</button>
-				<button class="theme-type" @click="defineChecked">DEFINE</button>
+				<button @click="removeChecked">{{$t('myAssets_assetsList.cancel')}}</button>
+				<button class="theme-type" @click="defineChecked">{{$t('myAssets_assetsList.define')}}</button>
 			</div>
 		</div>
 		<img class="decorate-dragon" src="@/assets/myAssets/dragon-posi-abs.png" alt="" />

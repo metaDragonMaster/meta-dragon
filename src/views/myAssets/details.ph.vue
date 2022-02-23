@@ -6,9 +6,9 @@
 		</div>
 		<div class="dragon-info-card">
 			<div class="skill-module">
-				<p class="dragon-name">Dragon_ziran_01</p>
+				<p class="dragon-name">{{dragonInfo.name}}</p>
 				<rate :stars="0"></rate>
-				<p class="dragon-skill-title">Skill:</p>
+				<p class="dragon-skill-title">{{$t('myAssets_details.skill')}}:</p>
 				<ul class="dragon-skill-list">
 					<li v-for="item in dragonSkills">
 						<img class="skill" :src="item.skillImageF" alt="">
@@ -34,7 +34,7 @@
 		</div>
 		<div class="scroll-auto">
 			<div class="module">
-				<p class="title">Material:</p>
+				<p class="title">{{$t('myAssets_details.material')}}:</p>
 			</div>
 			<div class="material ">
 				<ul class="material-list">
@@ -50,7 +50,7 @@
 				</ul>
 			</div>
 			<div class="module">
-				<p class="title">Attribute:</p>
+				<p class="title">{{$t('myAssets_details.attribute')}}:</p>
 			</div>
 			<div class="attribute module">
 				<ul class="attribute-list">
@@ -93,8 +93,8 @@
 				</ul>
 			</div> -->
 			<div class="wallet-address module">
-				<p class="title">Wallet address:</p>
-				<p class="title-sub">Buyers</p>
+				<p class="title">{{$t('myAssets_details.wallerAddress')}}:</p>
+				<p class="title-sub">{{$t('myAssets_details.buyers')}}</p>
 				<div class="bay-button">
 					<span>
 						{{ethAddress}}

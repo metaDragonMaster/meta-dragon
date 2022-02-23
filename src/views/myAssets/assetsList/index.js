@@ -40,16 +40,6 @@ export default {
 		typeCheck:false,//是否进行选择
 		selectTypeValue:"Dragon",
 		// selectTypeValue:"Egg",
-		selectList:[
-			{
-				value:'Dragon',
-				title:'Dragon'
-			},
-			{
-				value:'Egg',
-				title:'Egg'
-			}
-		],
 		timer:null,
 		// sendAddress: '',
 		// dragonImages: dragonImages,
@@ -72,6 +62,9 @@ export default {
 			// console.log(assetsNum);
 			return assetsNum;
 		},
+		selectTypeTitle() {
+			return this.selectList.filter(item=>this.selectTypeValue == item.value)[0].title;
+		},
 		showBatchTransfer() {
 			return this.selectTypeValue == 'Dragon'
 		},
@@ -80,6 +73,18 @@ export default {
 		},
 		checkDragonLength() {
 			return this.getCheckDragonList.length
+		},
+		selectList() {
+			return [
+				{
+					value:'Dragon',
+					title: this.$t('myAssets_assetsList.dragon')
+				},
+				{
+					value:'Egg',
+					title: this.$t('myAssets_assetsList.egg')
+				}
+			]
 		}
 	},
 	beforeDestroy() {

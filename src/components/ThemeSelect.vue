@@ -3,8 +3,8 @@
 		<div class="select-div theme-border-button" @click.stop="selectClick">
 			<span class="select-text">{{ value }}</span>
 		</div>
-		<ul class="select-option" v-show="selectshow">
-			<li class="theme-border-button" v-for="(ct, index) in listdata" :key="index" @click="selectName(ct.value)">
+		<ul class="select-option theme-border-select" v-show="selectshow">
+			<li class v-for="(ct, index) in listdata" :key="index" @click="selectName(ct.value)">
 				<span>{{ ct.title || ct.value }}</span>
 			</li>
 		</ul>
@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/theme';
+@import "@/styles/theme";
 .theme-select {
 	position: relative;
 	color: #fff;
@@ -78,8 +78,10 @@ export default {
 	width: 130px;
 	height: 42px;
 	cursor: pointer;
+	position: relative;
+	z-index: 2;
 	&::before {
-		content: '';
+		content: "";
 		display: block;
 		background: url(~@/assets/select/select-arrow.png) no-repeat;
 		background-size: contain;
@@ -96,11 +98,13 @@ export default {
 
 .select-option {
 	width: 100%;
-	height: 80px;
+	// height: 80px;
 	// background: rgba(138, 138, 138, 1);
 	// border-radius: 0px 0px 4px 4px;
 	z-index: 1;
 	position: absolute;
+	padding-top: 10px;
+	margin-top: -10px;
 	li {
 		width: 100%;
 		padding: 8px 12px;

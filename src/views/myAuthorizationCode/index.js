@@ -19,11 +19,11 @@ export default {
 	methods: {
 		init() {
 			this.findLoginAuthByAddress().then(res => {
+				// console.log(res)
 				let {
 					message
-				} = res.data.result;
+				} = res.data.body.loginAuth;
 				this.uuid = message;
-				console.log(res)
 			}).catch(e => {
 				console.error(e)
 				// this.createUUID()
@@ -44,10 +44,16 @@ export default {
 		axiosPost(url, data) {
 			return axios({
 				method: 'post',
-				baseURL: 'https://udprphavlyfp.usemoralis.com:2053',
+				baseURL: 'http://metadragon-1937987288.ap-southeast-1.elb.amazonaws.com:5869',
 				url: url,
 				data: data,
 			})
+			// return axios({
+			// 	method: 'post',
+			// 	baseURL: 'http://192.168.1.73:5869',
+			// 	url: url,
+			// 	data: data,
+			// })
 		},
 		async sign() {
 			if (!this.web3Provider) return;
@@ -66,19 +72,21 @@ export default {
 				}).then(res => {
 					this.$message.success('create success');
 					// this.uuid = message;
-					console.log(res)
-					this.uuid = res.data.result;
+					// console.log(res)
+					this.init()
 				}).catch(e => {
 					this.$message.error('create error')
 				})
 			});
 		},
 		createLoginAuth(data) {
-			return this.axiosPost('/server/functions/createLoginAuth', data)
+			return this.axiosPost('/user/createLoginAuth', data)
+			// return this.axiosPost('/user/createLoginAuth', data)
 		},
 		findLoginAuthByAddress() {
 			let ethAddress = this.ethAddress.toLowerCase();
-			return this.axiosPost('/server/functions/findLoginAuthByAddress', {
+			return this.axiosPost('/user/findLoginAuthByAddress', {
+			// return this.axiosPost('/user/findLoginAuthByAddress', {
 				ethAddress: ethAddress,
 			})
 		},

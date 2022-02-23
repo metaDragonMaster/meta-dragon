@@ -2,6 +2,7 @@
 node_modules
 /dist
 /.history
+/.vscode
 
 
 # local env files

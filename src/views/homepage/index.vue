@@ -2,7 +2,8 @@
 	<div class="homepage-view banner">
 		<img class="title-bg" src="@/assets/homepage/title-bg.png" alt="" />
 		<h5 class="introduce-title max-w">
-			Mate Dragon It is a leisure cultivation game based on blockchain technology, where you can break through customs, challenge the arena and make money with your skills
+			<!-- Mate Dragon It is a leisure cultivation game based on blockchain technology, where you can break through customs, challenge the arena and make money with your skills -->
+			{{$t('homepage.title')}}
 		</h5>
 		<div class="meta-card">
 			<div class="banner player"><!-- <p>12,064,711</p> --></div>
@@ -28,13 +29,13 @@
 					<p>.APK</p>
 				</li> -->
 			</ul>
-			<h5 class="introduce-title is-add">$ THG CONTRACT ADDRESS</h5>
-			<p class="opacity-p" v-for="(item, index) in links" @click="mycopy(item.link)">
+			<h5 class="introduce-title is-add">$ {{$t('homepage.listTitle')}}</h5>
+			<p class="opacity-p" v-for="(item, index) in links" :key="index" @click="mycopy(item.link)">
 				<span>{{ item.contract }}</span>
 				<span>{{ item.link }}</span>
 				<img src="@/assets/homepage/icon-copy.png" />
 			</p>
-			<div class="banner button button-inter">IMMEDIATELY</div>
+			<div class="banner button button-inter">{{$t('homepage.buttonText')}}</div>
 		</div>
 		<el-dialog class="dialog-dom" title="Get Approve" :visible.sync="dialogHandleValue" center width="90%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
 			<div v-show="haveAuth != true && getAuthErr != true">
@@ -118,6 +119,7 @@
 		padding: 4px 16px;
 		display: flex;
 		align-items: center;
+		cursor: pointer;
 		& span:first-child {
 			padding-right: 16px;
 		}

@@ -10,7 +10,7 @@
 					<!-- <p class="dragon-name">Dragon_ziran_01</p> -->
 					<p class="dragon-name">{{dragonInfo.name}}</p>
 					<rate :stars="0"></rate>
-					<p class="dragon-skill-title">Skill:</p>
+					<p class="dragon-skill-title">{{$t('myAssets_details.skill')}}:</p>
 					<ul class="dragon-skill-list">
 						<li v-for="item in dragonSkills">
 							<img class="skill" :src="item.skillImageF" alt="">
@@ -37,7 +37,7 @@
 		</el-col>
 		<el-col :span="13" class="scroll-auto">
 			<div class="material module">
-				<p class="title">Material:</p>
+				<p class="title">{{$t('myAssets_details.material')}}:</p>
 				<ul class="material-list">
 					<li v-for="(item,index) in materialList">
 						<div class="material-icon-bg">
@@ -51,7 +51,7 @@
 				</ul>
 			</div>
 			<div class="attribute module">
-				<p class="title">Attribute:</p>
+				<p class="title">{{$t('myAssets_details.attribute')}}:</p>
 				<ul class="attribute-list">
 					<li v-for="(item,index) in attributeList">
 						<img class="icon" :src="item.image" alt="">
@@ -89,9 +89,9 @@
 				</ul>
 			</div> -->
 			<div class="wallet-address module">
-				<p class="title">Wallet address:</p>
+				<p class="title">{{$t('myAssets_details.wallerAddress')}}:</p>
 				<div class="bay-button">
-					<span>Buyers</span>
+					<span>{{$t('myAssets_details.buyers')}}</span>
 					<span>{{ethAddress}}</span>
 					<img src="@/assets/myAssets-details/wallet-address-icon.png" alt="">
 				</div>

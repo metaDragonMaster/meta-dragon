@@ -1,7 +1,8 @@
 <template>
 	<div class="homepage-view">
 		<h5 class="introduce-title max-w">
-			Mate Dragon It is a leisure cultivation game based on blockchain technology, where you can break through customs, challenge the arena and make money with your skills
+			<!-- Mate Dragon It is a leisure cultivation game based on blockchain technology, where you can break through customs, challenge the arena and make money with your skills -->
+			{{$t('homepage.title')}}
 		</h5>
 		<div class="banner player"><!-- <p>12,064,711</p> --></div>
 		<ul class="download-buttons">
@@ -12,7 +13,7 @@
 				</a>
 			</li>
 			<li class="button button-download banner">
-				<a :href="downloadLink.exe"download>
+				<a :href="downloadLink.exe" download>
 					<img src="@/assets/homepage/icon-windows.png" alt="" />
 					<p>PC</p>
 				</a>
@@ -22,9 +23,9 @@
 				<p>IOS</p>
 			</li> -->
 		</ul>
-		<div class="banner button button-inter">IMMEDIATELY</div>
-		<h5 class="introduce-title is-add">$ THG CONTRACT ADDRESS</h5>
-		<div class="opacity-p" v-for="(item, index) in links" @click="mycopy(item.link)">
+		<div class="banner button button-inter">{{$t('homepage.buttonText')}}</div>
+		<h5 class="introduce-title is-add">$  {{$t('homepage.listTitle')}}</h5>
+		<div class="opacity-p" v-for="(item, index) in links" :key="index" @click="mycopy(item.link)">
 			<p>
 				<span>{{ item.contract }}</span>
 				<img src="@/assets/homepage/icon-copy.png" />

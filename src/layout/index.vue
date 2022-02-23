@@ -1,29 +1,27 @@
 <template>
 	<div id="layout">
 		<!-- <HeadNav></HeadNav> -->
-		<component :is="headComponent" @btnClick="todo"></component>
+		<component :is="headComponent" @btnClick="todo" :navList="navList"></component>
 		<!-- {{ isPc }} -->
-		<div class="app-main" :class="{'ph':isPc!==true}">
-			<keep-alive :include="keepRoute">
-				<router-view></router-view>
-			</keep-alive>
+		<div class="app-main" :class="{ ph: isPc !== true }">
+			<keep-alive :include="keepRoute"><router-view></router-view></keep-alive>
 		</div>
 	</div>
 </template>
 <script>
 import Web3 from 'web3';
 import abi721NFT from '@/jsons/abi-721-NFT.js';
-import HeadNav from "./headNav/index.vue";
-import HeadNavPH from "./headNav/index.ph.vue";
-import { mapActions,mapGetters } from "vuex";
+import HeadNav from './headNav/index.vue';
+import HeadNavPH from './headNav/index.ph.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
 	data() {
 		return {
 			// web3js:null,
 			// keepRoute:['homepage'],
-			keepRoute:['homepage','myAssets'],
-		}
+			keepRoute: ['homepage']
+		};
 	},
 	components: {
 		HeadNav,
@@ -32,74 +30,103 @@ export default {
 	watch: {
 		$route(now, old) {
 			if (old) {
-				this.watchRouteToChangeTheme()
+				this.watchRouteToChangeTheme();
 			}
-		}
+		},
 	},
 	computed: {
 		...mapGetters({
 			isPc: 'isPc',
 			web3Provider: 'web3Provider',
 		}),
-		// isPc() {
-		// 	return this.$store.state.isPc;
-		// },
 		headComponent() {
-			return this.isPc ? 'HeadNav':'HeadNavPH'
+			return this.isPc ? 'HeadNav' : 'HeadNavPH';
 		},
-		// web3Provider() {
-		// 	return this.$store.state.web3Provider;
-		// }
+		navList() {
+			return [
+				{
+					title: this.$t('headerNav.nav.homepage'),
+					path: '/homepage'
+				},
+				{
+					title: this.$t('headerNav.nav.nftMarket') ,
+					path: '/nftMarket'
+				},
+				{
+					title: this.$t('headerNav.nav.nftBox'),
+					path: '/nftBox'
+				},
+				{
+					title: this.$t('headerNav.nav.whiteBook') ,
+					path: '/whiteBook'
+				},
+				{
+					title: this.$t('headerNav.nav.invitationReward') ,
+					path: '/invitationReward'
+				},
+				{
+					title: this.$t('headerNav.nav.myAssets'),
+					path: '/myAssets'
+				},
+				{
+					title: this.$t('headerNav.nav.authCode'),
+					path: '/myAuthorizationCode'
+				},
+				{
+					title: this.$t('headerNav.nav.bindFriends'),
+					path: '/bindFriends'
+				},
+			];
+		},
+
 	},
 	mounted() {
 		this.watchRouteToChangeTheme();
-		this.todo();
+		this.setWeb3();
 	},
 	methods: {
-		...mapActions({ 
-			setTheme: 'setTheme', 
+		...mapActions({
+			setTheme: 'setTheme',
 			setCurrentRoutePath: 'setCurrentRoutePath',
 			setEthAddress: 'setEthAddress',
 			setWeb3Provider: 'setWeb3Provider'
 		}),
 		watchRouteToChangeTheme() {
 			let theme = this.$route.name == 'homepage' ? 'transparent' : 'dark';
-			this.setCurrentRoutePath(this.$route.path)
+			this.setCurrentRoutePath(this.$route.path);
 			this.setTheme(theme);
 		},
 		setWeb3() {
-			let web3Provider = this.$store.state.web3Provider;
-			if(!web3Provider) {
+			let web3Provider = this.web3Provider;
+			if (!web3Provider) {
 				this.todo();
-			} 
+			}
 		},
 		todo() {
-			let that = this;
 			let web3Provider = window.ethereum;
-			
 			if (web3Provider) {
 				try {
 					// 请求用户授权
 					web3Provider.enable();
-					console.log("web3Provider---",web3Provider);
-					console.log("web3Provider---",web3Provider.chainId);
+					// console.log('web3Provider---', web3Provider);
+					// console.log('web3Provider---', web3Provider.chainId);
+					// 0x61 测试网络
+					// 0x38 正式网络
 					if(web3Provider.chainId == '0x38') {
 						let web3js = new Web3(web3Provider); //web3js就是你需要的web3实例
-						this.setWeb3Provider(web3js)
-						console.log(this.web3Provider)
-						web3js.eth.getAccounts().then(res=>{
-							that.setEthAddress(res[0]);
+						this.setWeb3Provider(web3js);
+						// console.log(this.web3Provider);
+						web3js.eth.getAccounts().then(res => {
+							this.setEthAddress(res[0]);
 						});
 					} else {
-						// this.$message.error('Please switch the BSC network');
 						this.$message({
 							duration: 0,
 							type: 'error',
 							message: 'Please switch the BSC network'
 						})
 					}
-					// 0x61 测试网络
-					// 0x38 正式网络
+					
 				} catch (error) {
 					// 用户不授权时
 					console.error('User denied accoun t access');
@@ -107,28 +134,11 @@ export default {
 					throw new Error(error);
 				}
 			}
-			// console.log(this.$store.state.web3Provider);
 		},
-		getAccounts() {
-			
-		},
-		ethRequest() {
-			let params = [
-				{
-					from: '0xb60e8dd61c5d32be8058bb8eb970870f07233155',
-					to: '0xd46e8dd67c5d32be8058bb8eb970870f07244567',
-					gas: '0x76c0', // 30400
-					gasPrice: '0x9184e72a000', // 10000000000000
-					value: '0x9184e72a', // 2441406250
-					data: '0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675'
-				}
-			];
-			console.log(this.web3js);
-		}
 	}
-}
+};
 </script>
-<style  lang="scss" scoped="scoped">
+<style lang="scss" scoped="scoped">
 #layout {
 	position: relative;
 	.head-nav {
@@ -136,6 +146,7 @@ export default {
 		top: 0;
 		left: 0;
 		width: 100%;
+		z-index: 999;
 	}
 	.app-main > * {
 		padding-top: 100px;

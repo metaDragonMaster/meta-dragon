@@ -12,7 +12,7 @@
 					:dragonHatch="hatchLeftNum"
 					@choice="openChoiceDragon('dragonInfoLeft',dragonInfoLeft.id)"
 				></dragonCard>
-				<p class="shadow-text">MBC: {{hatchLeftNum}}/7</p>
+				<p class="shadow-text">{{$t('myAssets_hatchEgg.mbc')}}: {{hatchLeftNum}}/7</p>
 			</li>
 			<li>
 				<dragonCard
@@ -25,7 +25,7 @@
 					:dragonHatch="hatchRightNum"
 					@choice="openChoiceDragon('dragonInfoRight',dragonInfoRight.id)"
 				></dragonCard>
-				<p class="shadow-text">MBC: {{hatchRightNum}}/7</p>
+				<p class="shadow-text">{{$t('myAssets_hatchEgg.mbc')}}: {{hatchRightNum}}/7</p>
 			</li>
 		</ul>
 		<div>
@@ -33,7 +33,9 @@
 				<img src='@/assets/myAssets/col-2-icon.png' alt="">
 				{{hatchPrice}}
 			</p>
-			<button class="theme-type submit-button" @click="handleHatch"  v-loading="loading" :elementLoadingBackground="elementLoadingBackground">Hatch</button>
+			<button class="theme-type submit-button" @click="handleHatch"  v-loading="loading" :elementLoadingBackground="elementLoadingBackground">
+				{{$t('myAssets_hatchEgg.hatch')}}
+			</button>
 		</div>
 		<choiceDragon :dialogHandleValue.sync="dialogHandleValue" @checked="checkedDragon" ref="choiceDragon"></choiceDragon>
 	</div>

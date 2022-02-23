@@ -10,6 +10,7 @@ export default new Vuex.Store({
 		isPc: true,
 		ethAddress:'',
 		web3Provider:null,
+		// haveAuth:false,
 		haveAuth:false,
 		Lb:'0',
 		Lc:'0',
@@ -17,6 +18,8 @@ export default new Vuex.Store({
 		EGG:0,
 		timestamp:0,
 		// haveBatchApprove:false,// 
+		i18nType:'en',
+		haveRes:false,
 	},
 	mutations: {
 		SET_THEME:(state,theme)=>{
@@ -49,6 +52,12 @@ export default new Vuex.Store({
 		},
 		SET_TIME_STAMP:(state,timestamp)=>{
 			state.timestamp = timestamp
+		},
+		SET_I18N_TYPE:(state,i18nType)=>{
+			state.i18nType = i18nType
+		},
+		SET_HAVE_RES:(state,haveRes)=>{
+			state.haveRes = haveRes
 		},
 	},
 	actions: {
@@ -94,6 +103,12 @@ export default new Vuex.Store({
 		setTimestamp({commit},timestamp) {
 			commit('SET_TIME_STAMP', timestamp);
 		},
+		setI18nType({commit},i18nType) {
+			commit('SET_I18N_TYPE', i18nType);
+		},
+		setHaveRes({commit},haveRes) {
+			commit('SET_HAVE_RES', haveRes);
+		},
 	},
 	getters:{
 		theme:state=>state.theme,
@@ -109,5 +124,7 @@ export default new Vuex.Store({
 			"Lb":state.Lb,
 		}),
 		dateTimestamp:state=>state.timestamp,
+		i18nType:state=>state.i18nType,
+		haveRes:state=>state.haveRes,
 	},
 })
